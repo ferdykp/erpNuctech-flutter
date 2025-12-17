@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import '../core/network/api_client.dart';
-import '../models/fuzhaojielunleixing_model.dart';
+import '../core//network/api_client.dart';
+import '../models/fuzhaopi_model.dart';
 
-class FuzhaoProvider extends ChangeNotifier {
+class FuzhaopiProvider extends ChangeNotifier {
   bool loading = false;
-  List<Fuzhao> data = [];
+  List<Fuzhaopi> data = [];
 
   String? errorMessage;
-
-  Future<void> fetchFuzhao() async {
+  Future<void> fetchFuzhaopi() async {
     loading = true;
     notifyListeners();
 
     try {
-      final response = await ApiClient.get(ApiConfig.fuzhao);
+      final response = await ApiClient.get(ApiConfig.fuzhaopi);
       // List list = response["data"];
 
       if (response == null || response["data"] == null) {
@@ -23,7 +22,7 @@ class FuzhaoProvider extends ChangeNotifier {
         // =================================================
       } else {
         List dataList = response["data"];
-        data = dataList.map((e) => Fuzhao.fromJson(e)).toList();
+        data = dataList.map((e) => Fuzhaopi.fromJson(e)).toList();
       }
 
       // data = list.map((e) => Fuzhao.fromJson(e)).toList();

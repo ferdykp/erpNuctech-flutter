@@ -30,4 +30,6 @@ class ApiConfig {
   static const String chanpinxian = "/api/chanpinxian";
   static const String caozuo = "/api/caozuo";
   static const String fahuo = "/api/fahuo";
+  static const String fuzhao = "/api/fuzhao";
+  static const String fuzhaopi = "/api/fuzhaopi";
 }

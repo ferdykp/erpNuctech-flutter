@@ -67,6 +67,7 @@
 import 'package:erp_nuctech/providers/caozuo_provider.dart';
 import 'package:erp_nuctech/providers/fahuo_provider.dart';
 import 'package:erp_nuctech/providers/fuzhaojielunleixing_provider.dart';
+import 'package:erp_nuctech/providers/fuzhaopi_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -90,6 +91,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CaozuoProvider()),
         ChangeNotifierProvider(create: (_) => FahuoProvider()),
         ChangeNotifierProvider(create: (_) => FuzhaoProvider()),
+        ChangeNotifierProvider(create: (_) => FuzhaopiProvider()),
 
         // ➜ provider tambahan
       ],

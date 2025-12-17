@@ -1,6 +1,7 @@
 // import 'package:erp_nuctech/models/fuzhaojielunleixing_model.dart';
 import 'package:erp_nuctech/screens/caozuo_list_screen.dart';
 import 'package:erp_nuctech/screens/fahuo_list_screen.dart';
+import 'package:erp_nuctech/screens/fuzhaopi_list_screen.dart';
 import 'package:flutter/material.dart';
 import '../screens/warehouse_list_screen.dart';
 import '../screens/chanpinxian_list_screen.dart';
@@ -73,6 +74,16 @@ class AppSidebar extends StatelessWidget {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (_) => const FuzhaoListScreen()),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.factory),
+            title: const Text("Radiation Batch"),
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const FuzhaopiListScreen()),
               );
             },
           ),

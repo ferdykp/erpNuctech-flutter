@@ -85,7 +85,7 @@ class _FuzhaoListScreenState extends State<FuzhaoListScreen> {
                     ),
                     DataCell(
                       SizedBox(
-                        width: isMobile ? 140 : 260,
+                        width: isMobile ? 80 : 260,
                         child: Text(
                           w.mingcheng,
                           softWrap: true,
@@ -94,12 +94,16 @@ class _FuzhaoListScreenState extends State<FuzhaoListScreen> {
                         ),
                       ),
                     ),
+                    // DataCell(
+                    //   Text(w.mingcheng, style: TextStyle(fontSize: fontSize)),
+                    // ),
                     DataCell(
                       Text(
-                        w.shifouyouxiao.toString(),
+                        w.shifouyouxiao == 1 ? "Yes" : "No",
                         style: TextStyle(fontSize: fontSize),
                       ),
                     ),
+
                     DataCell(
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -153,7 +157,7 @@ class _FuzhaoListScreenState extends State<FuzhaoListScreen> {
               _detailRow("Is Valid", w.shifouyouxiao == 1 ? "Yes" : "No"),
               _detailRow("Created By (User ID)", w.rululenid.toString()),
               _detailRow("Created Date", w.ruluriqi),
-              _detailRow("Updated By (User ID)", w.xiugairenid),
+              _detailRow("Updated By (User ID)", w.xiugairenid.toString()),
               _detailRow("Updated At", w.xiugaishijian),
 
               const SizedBox(height: 24),

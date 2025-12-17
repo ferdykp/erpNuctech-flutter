@@ -4,7 +4,7 @@ class Fuzhao {
   final int shifouyouxiao;
   final int rululenid;
   final String ruluriqi;
-  final String xiugairenid;
+  final int xiugairenid;
   final String xiugaishijian;
 
   Fuzhao({
@@ -19,7 +19,7 @@ class Fuzhao {
 
   factory Fuzhao.fromJson(Map<String, dynamic> json) {
     return Fuzhao(
-      fjllxid: json['FJLLX_ID'],
+      fjllxid: json['FZJLLX_ID'],
       mingcheng: json['MingCheng'],
       shifouyouxiao: json['ShiFouYouXiao'],
       rululenid: json['RuLuRen_ID'],
