@@ -1,36 +1,34 @@
-// import 'package:erp_nuctech/models/fuzhaojielunleixing_model.dart';
-import 'package:erp_nuctech/screens/table/fuzhaojielunleixing_data_source.dart';
+// import 'package:erp_nuctech/models/fuzhaopi_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'table/jiesuan_data_source.dart'; // <<< DITAMBAHKAN
 import '../layouts/base_layout.dart';
-import '../providers/fuzhaojielunleixing_provider.dart';
+import '../providers/jiesuan_provider.dart';
 
-class FuzhaoListScreen extends StatefulWidget {
-  const FuzhaoListScreen({super.key});
+class JiesuanListScreen extends StatefulWidget {
+  const JiesuanListScreen({super.key});
 
   @override
-  State<FuzhaoListScreen> createState() => _FuzhaoListScreenState();
+  State<JiesuanListScreen> createState() => _JiesuanListScreenState();
 }
 
-class _FuzhaoListScreenState extends State<FuzhaoListScreen> {
+class _JiesuanListScreenState extends State<JiesuanListScreen> {
   @override
   void initState() {
     super.initState();
-    Provider.of<FuzhaoProvider>(context, listen: false).fetchFuzhao();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<JiesuanProvider>().fetchJiesuan();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<FuzhaoProvider>(context);
+    final provider = Provider.of<JiesuanProvider>(context);
 
-    return BaseLayout(
-      title: "Radiation Conlusion",
-      child: _buildBody(provider),
-    );
+    return BaseLayout(title: "Payment Type", child: _buildBody(provider));
   }
 
-  Widget _buildBody(FuzhaoProvider provider) {
+  Widget _buildBody(JiesuanProvider provider) {
     if (provider.loading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -53,7 +51,7 @@ class _FuzhaoListScreenState extends State<FuzhaoListScreen> {
     return _buildTable(provider);
   }
 
-  Widget _buildTable(FuzhaoProvider provider) {
+  Widget _buildTable(JiesuanProvider provider) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isMobile = constraints.maxWidth < 600;
@@ -65,18 +63,16 @@ class _FuzhaoListScreenState extends State<FuzhaoListScreen> {
               dataRowMaxHeight: 58, // <<< TAMBAHKAN
             ),
             child: PaginatedDataTable(
-              header: const Text("Radiation Batch Operation Logs"),
+              header: const Text("Payment Type"),
               rowsPerPage: isMobile ? 10 : 10,
               columnSpacing: isMobile ? 10 : 30,
               columns: const [
                 DataColumn(label: Text("ID")),
-                DataColumn(label: Text("Category")),
-                // DataColumn(label: Text("Is Valid")),
                 DataColumn(
                   label: SizedBox(
-                    width: 100,
+                    width: 80, // ⬅️ atur lebar header
                     child: Text(
-                      "Category",
+                      "Payment",
                       textAlign: TextAlign.center,
                       softWrap: true,
                       maxLines: 2,
@@ -84,6 +80,20 @@ class _FuzhaoListScreenState extends State<FuzhaoListScreen> {
                     ),
                   ),
                 ),
+                DataColumn(
+                  label: SizedBox(
+                    width: 120, // ⬅️ atur lebar header
+                    child: Text(
+                      "Is It Active",
+                      textAlign: TextAlign.center,
+                      softWrap: true,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
+
+                // DataColumn(label: Text("Action")),
                 DataColumn(
                   label: Center(
                     child: Text(
@@ -94,7 +104,7 @@ class _FuzhaoListScreenState extends State<FuzhaoListScreen> {
                   ),
                 ),
               ],
-              source: FuzhaoDataSource(
+              source: JiesuanDataSource(
                 data: provider.data,
                 context: context,
                 isMobile: isMobile,

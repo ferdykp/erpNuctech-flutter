@@ -30,11 +30,15 @@ class ChanPinXian {
       yongTu: json["YongTu"] ?? "-",
       ruLuRiQi: json["RuLuRiQi"] ?? "-",
       xiuGaiShiJian: json["XiuGaiShiJian"] ?? "-",
-      shiFouYouXiao: json["ShiFouYouXiao"] ?? 0,
-      k: (json["K"] ?? 0).toDouble(),
-      ta: (json["Ta"] ?? 0).toDouble(),
-      tb: (json["Tb"] ?? 0).toDouble(),
-      tc: (json["Tc"] ?? 0).toDouble(),
+      shiFouYouXiao: json["ShiFouYouXiao"] == true ? 1 : 0,
+      // k: (json["K"] ?? 0).toDouble(),
+      // ta: (json["Ta"] ?? 0).toDouble(),
+      // tb: (json["Tb"] ?? 0).toDouble(),
+      // tc: (json["Tc"] ?? 0).toDouble(),
+      k: double.parse(json['K'].toString()),
+      ta: double.parse(json['Ta'].toString()),
+      tb: double.parse(json['Tb'].toString()),
+      tc: double.parse(json['Tc'].toString()),
     );
   }
 }

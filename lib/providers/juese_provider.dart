@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
 import '../core/network/api_client.dart';
-import '../models/fahuo_model.dart';
+import '../models/juese_model.dart';
 
-class FahuoProvider extends ChangeNotifier {
+class JueseProvider extends ChangeNotifier {
   bool loading = false;
-  List<Fahuo> data = [];
+  List<Juese> data = [];
   String? errorMessage;
 
-  Future<void> fetchFahuo() async {
+  Future<void> fetchJuese() async {
     try {
       loading = true;
       errorMessage = null;
 
-      // ❌ JANGAN notify di sini
-
-      final response = await ApiClient.get(ApiConfig.fahuo);
+      final response = await ApiClient.get(ApiConfig.juese);
 
       if (response == null || response["data"] == null) {
         errorMessage = "Failed to load data";
         data = [];
       } else {
         List dataList = response["data"];
-        data = dataList.map((e) => Fahuo.fromJson(e)).toList();
+        data = dataList.map((e) => Juese.fromJson(e)).toList();
       }
     } catch (e) {
       debugPrint("Error $e");
@@ -29,7 +27,7 @@ class FahuoProvider extends ChangeNotifier {
       data = [];
     } finally {
       loading = false;
-      notifyListeners(); // ✅ SATU-SATUNYA notify
+      notifyListeners();
     }
   }
 }

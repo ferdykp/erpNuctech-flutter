@@ -1,15 +1,15 @@
-class Fuzhao {
-  final int fjllxid;
-  final String mingcheng;
+class Jiliang {
+  final int dwid;
+  final String danweimingcheng;
   final int shifouyouxiao;
   final int rululenid;
   final String ruluriqi;
   final int xiugairenid;
   final String xiugaishijian;
 
-  Fuzhao({
-    required this.fjllxid,
-    required this.mingcheng,
+  Jiliang({
+    required this.dwid,
+    required this.danweimingcheng,
     required this.shifouyouxiao,
     required this.rululenid,
     required this.ruluriqi,
@@ -17,10 +17,10 @@ class Fuzhao {
     required this.xiugaishijian,
   });
 
-  factory Fuzhao.fromJson(Map<String, dynamic> json) {
-    return Fuzhao(
-      fjllxid: json['FZJLLX_ID'],
-      mingcheng: json['MingCheng'],
+  factory Jiliang.fromJson(Map<String, dynamic> json) {
+    return Jiliang(
+      dwid: json['DW_ID'],
+      danweimingcheng: json['DanWeiMingCheng'],
       shifouyouxiao: json["ShiFouYouXiao"] == true ? 1 : 0,
       rululenid: json['RuLuRen_ID'],
       ruluriqi: json['RuLuRiQi'],

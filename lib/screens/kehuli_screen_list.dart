@@ -1,36 +1,34 @@
-// import 'package:erp_nuctech/models/fuzhaojielunleixing_model.dart';
-import 'package:erp_nuctech/screens/table/fuzhaojielunleixing_data_source.dart';
+// import 'package:erp_nuctech/models/fuzhaopi_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'table/kehuli_data_source.dart';
 import '../layouts/base_layout.dart';
-import '../providers/fuzhaojielunleixing_provider.dart';
+import '../providers/kehuli_provider.dart';
 
-class FuzhaoListScreen extends StatefulWidget {
-  const FuzhaoListScreen({super.key});
+class KehuliListScreen extends StatefulWidget {
+  const KehuliListScreen({super.key});
 
   @override
-  State<FuzhaoListScreen> createState() => _FuzhaoListScreenState();
+  State<KehuliListScreen> createState() => _KehuliListScreenState();
 }
 
-class _FuzhaoListScreenState extends State<FuzhaoListScreen> {
+class _KehuliListScreenState extends State<KehuliListScreen> {
   @override
   void initState() {
     super.initState();
-    Provider.of<FuzhaoProvider>(context, listen: false).fetchFuzhao();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<KehuliProvider>().fetchKehuli();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<FuzhaoProvider>(context);
+    final provider = Provider.of<KehuliProvider>(context);
 
-    return BaseLayout(
-      title: "Radiation Conlusion",
-      child: _buildBody(provider),
-    );
+    return BaseLayout(title: "Customer Contacts", child: _buildBody(provider));
   }
 
-  Widget _buildBody(FuzhaoProvider provider) {
+  Widget _buildBody(KehuliProvider provider) {
     if (provider.loading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -53,7 +51,7 @@ class _FuzhaoListScreenState extends State<FuzhaoListScreen> {
     return _buildTable(provider);
   }
 
-  Widget _buildTable(FuzhaoProvider provider) {
+  Widget _buildTable(KehuliProvider provider) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isMobile = constraints.maxWidth < 600;
@@ -61,22 +59,20 @@ class _FuzhaoListScreenState extends State<FuzhaoListScreen> {
         return SingleChildScrollView(
           child: DataTableTheme(
             data: const DataTableThemeData(
-              dataRowMinHeight: 36, // <<< TAMBAHKAN
-              dataRowMaxHeight: 58, // <<< TAMBAHKAN
+              dataRowMinHeight: 36,
+              dataRowMaxHeight: 58,
             ),
             child: PaginatedDataTable(
-              header: const Text("Radiation Batch Operation Logs"),
+              header: const Text("Customer Contact Person"),
               rowsPerPage: isMobile ? 10 : 10,
               columnSpacing: isMobile ? 10 : 30,
               columns: const [
-                DataColumn(label: Text("ID")),
-                DataColumn(label: Text("Category")),
-                // DataColumn(label: Text("Is Valid")),
+                DataColumn(label: Text("Contacts ID")),
                 DataColumn(
                   label: SizedBox(
-                    width: 100,
+                    width: 80, // ⬅️ atur lebar header
                     child: Text(
-                      "Category",
+                      "Name",
                       textAlign: TextAlign.center,
                       softWrap: true,
                       maxLines: 2,
@@ -84,6 +80,20 @@ class _FuzhaoListScreenState extends State<FuzhaoListScreen> {
                     ),
                   ),
                 ),
+                DataColumn(
+                  label: SizedBox(
+                    width: 120, // ⬅️ atur lebar header
+                    child: Text(
+                      "Mobile Phone",
+                      textAlign: TextAlign.center,
+                      softWrap: true,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
+
+                // DataColumn(label: Text("Action")),
                 DataColumn(
                   label: Center(
                     child: Text(
@@ -94,7 +104,7 @@ class _FuzhaoListScreenState extends State<FuzhaoListScreen> {
                   ),
                 ),
               ],
-              source: FuzhaoDataSource(
+              source: KehuliDataSource(
                 data: provider.data,
                 context: context,
                 isMobile: isMobile,

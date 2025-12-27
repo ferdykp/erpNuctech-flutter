@@ -24,7 +24,7 @@ class Warehouse {
       nama: json["CangKuMingCheng"] ?? "-",
       quYuShu: json["QuYuShu"] ?? 0,
       fuZeRen: json["FuZeRen"] ?? "-",
-      luas: (json["MianJi"] ?? 0).toDouble(),
+      luas: double.parse(json['MianJi'].toString()),
       ruLuRiQi: json["RuLuRiQi"] ?? "-",
       xiuGaiShiJian: json["XiuGaiShiJian"] ?? "-",
     );

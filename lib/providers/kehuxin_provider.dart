@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
 import '../core/network/api_client.dart';
-import '../models/fahuo_model.dart';
+import '../models/kehuxin_model.dart';
 
-class FahuoProvider extends ChangeNotifier {
+class KehuxinProvider extends ChangeNotifier {
   bool loading = false;
-  List<Fahuo> data = [];
+  List<Kehuxin> data = [];
   String? errorMessage;
 
-  Future<void> fetchFahuo() async {
+  Future<void> fetchKehuxin() async {
     try {
       loading = true;
       errorMessage = null;
 
-      // ❌ JANGAN notify di sini
-
-      final response = await ApiClient.get(ApiConfig.fahuo);
+      final response = await ApiClient.get(ApiConfig.kehuxin);
 
       if (response == null || response["data"] == null) {
         errorMessage = "Failed to load data";
         data = [];
       } else {
         List dataList = response["data"];
-        data = dataList.map((e) => Fahuo.fromJson(e)).toList();
+        data = dataList.map((e) => Kehuxin.fromJson(e)).toList();
       }
     } catch (e) {
       debugPrint("Error $e");
@@ -29,7 +27,7 @@ class FahuoProvider extends ChangeNotifier {
       data = [];
     } finally {
       loading = false;
-      notifyListeners(); // ✅ SATU-SATUNYA notify
+      notifyListeners();
     }
   }
 }
