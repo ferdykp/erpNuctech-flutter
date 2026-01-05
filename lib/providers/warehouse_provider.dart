@@ -47,7 +47,7 @@ class WarehouseProvider extends ChangeNotifier {
     try {
       final response = await ApiClient.get(ApiConfig.warehouse);
 
-      if (response == null || response["data"] == null) {
+      if (response["data"] == null) {
         // =================== 🆕 ADDED ===================
         errorMessage = "Failed to load data";
         warehouses = [];

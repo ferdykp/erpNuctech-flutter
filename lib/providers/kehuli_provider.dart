@@ -14,7 +14,7 @@ class KehuliProvider extends ChangeNotifier {
 
       final response = await ApiClient.get(ApiConfig.kehuli);
 
-      if (response == null || response["data"] == null) {
+      if (response["data"] == null) {
         errorMessage = "Failed to load data";
         data = [];
       } else {

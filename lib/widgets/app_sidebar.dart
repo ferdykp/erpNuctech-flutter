@@ -1,7 +1,14 @@
 import 'package:erp_nuctech/screens/juese_list_screen.dart';
 import 'package:erp_nuctech/screens/kehuxin_list_screen.dart';
+import 'package:erp_nuctech/screens/process_manage_list_screen.dart';
+import 'package:erp_nuctech/screens/register_screen.dart';
+import 'package:erp_nuctech/screens/weituodan_list_screen.dart';
+import 'package:erp_nuctech/screens/weituodanleixing_list_screen.dart';
+import 'package:erp_nuctech/screens/weituodanrenwu_list_screen.dart';
 import 'package:erp_nuctech/screens/zuzhi_list_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth_provider.dart';
 
 import '../screens/warehouse_list_screen.dart';
 import '../screens/chanpinxian_list_screen.dart';
@@ -20,6 +27,7 @@ class AppSidebar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final auth = context.watch<AuthProvider>(); // ✅ INI WAJIB
     return Drawer(
       child: Column(
         children: [
@@ -28,6 +36,150 @@ class AppSidebar extends StatelessWidget {
             child: ListView(
               padding: const EdgeInsets.symmetric(vertical: 8),
               children: [
+                // _sectionTitle("Customer Data"),
+                // _menuItem(
+                //   context,
+                //   icon: Icons.people_alt_outlined,
+                //   title: "Profile Customer",
+                //   page: const KehuxinListScreen(),
+                // ),
+                // _menuItem(
+                //   context,
+                //   icon: Icons.people_alt_outlined,
+                //   title: "PIC Costumer (TB_KeHuLianXiRen)",
+                //   page: const JueseListScreen(),
+                // ),
+                _sectionTitle("Order Job"),
+                _menuItem(
+                  context,
+                  icon: Icons.people_alt_outlined,
+                  title: "Customer Order (TB_WeiTuoDan done)",
+                  page: const WeituodanListScreen(),
+                ),
+                _menuItem(
+                  context,
+                  icon: Icons.people_alt_outlined,
+                  title: "Type Service (TB_WeiTuoDanLeiXing(done))",
+                  page: const WeituodanleixingListScreen(),
+                ),
+                _menuItem(
+                  context,
+                  icon: Icons.people_alt_outlined,
+                  title: "Work Detail (TB_WeiTuoDanRenWuMingXi)",
+                  page: const WeituodanrenwuListScreen(),
+                ),
+                _sectionTitle("Management Production"),
+
+                _menuItem(
+                  context,
+                  icon: Icons.people_alt_outlined,
+                  title: "Process Management",
+                  page: const ProcessManageListScreen(),
+                ),
+
+                // _sectionTitle("Batch Processing"),
+                // _menuItem(
+                //   context,
+                //   icon: Icons.people_alt_outlined,
+                //   title: "Batch List (TB_PiCiRenWuLieBiao)",
+                //   page: const JueseListScreen(),
+                // ),
+                // _menuItem(
+                //   context,
+                //   icon: Icons.people_alt_outlined,
+                //   title: "Timeline Process (TB_PiCiShiJianJiLu)",
+                //   page: const JueseListScreen(),
+                // ),
+                // _menuItem(
+                //   context,
+                //   icon: Icons.people_alt_outlined,
+                //   title: "Change Status (TB_PiCiCaoZuoJiLu)",
+                //   page: const JueseListScreen(),
+                // ),
+                // _menuItem(
+                //   context,
+                //   icon: Icons.people_alt_outlined,
+                //   title: "Conclution Batch (TB_PiCiChuLiJieLun)",
+                //   page: const JueseListScreen(),
+                // ),
+
+                // _sectionTitle("Quality & Dose Result"),
+                // _menuItem(
+                //   context,
+                //   icon: Icons.people_alt_outlined,
+                //   title: "QC Summary (TB_PiCiZhiLiangJianCeDan)",
+                //   page: const JueseListScreen(),
+                // ),
+                // _menuItem(
+                //   context,
+                //   icon: Icons.people_alt_outlined,
+                //   title: "QC Detail (TB_PiCiZhiLiangJianCeDanMingXi)",
+                //   page: const JueseListScreen(),
+                // ),
+                // _menuItem(
+                //   context,
+                //   icon: Icons.people_alt_outlined,
+                //   title: "Dose Map (TB_JiLiangFenBuTu)",
+                //   page: const JueseListScreen(),
+                // ),
+                // _menuItem(
+                //   context,
+                //   icon: Icons.people_alt_outlined,
+                //   title: "Detail Dose (TB_JiLiangFenBuTuMingXi)",
+                //   page: const JueseListScreen(),
+                // ),
+                // _menuItem(
+                //   context,
+                //   icon: Icons.people_alt_outlined,
+                //   title: "Indicator (TB_PiCiZhiBiaoWuJianCe)",
+                //   page: const JueseListScreen(),
+                // ),
+                // _menuItem(
+                //   context,
+                //   icon: Icons.people_alt_outlined,
+                //   title: "Final Result (TB_PiCiChuLiJieLun)",
+                //   page: const JueseListScreen(),
+                // ),
+                // _menuItem(
+                //   context,
+                //   icon: Icons.people_alt_outlined,
+                //   title: "Pass / Fail (TB_FuZhaoJieLunLeiXing)",
+                //   page: const JueseListScreen(),
+                // ),
+
+                // _sectionTitle("Certificate Docs"),
+                // _menuItem(
+                //   context,
+                //   icon: Icons.people_alt_outlined,
+                //   title: "Certificate (TB_FuZhaoZhengMing)",
+                //   page: const JueseListScreen(),
+                // ),
+                // _menuItem(
+                //   context,
+                //   icon: Icons.people_alt_outlined,
+                //   title: "Docs List (TB_FuZhaoZhengMingLieBiao)",
+                //   page: const JueseListScreen(),
+                // ),
+                // _menuItem(
+                //   context,
+                //   icon: Icons.people_alt_outlined,
+                //   title: "Evidence (TB_ShouLingPingZheng)",
+                //   page: const JueseListScreen(),
+                // ),
+
+                // _sectionTitle("Order"),
+                // _menuItem(
+                //   context,
+                //   icon: Icons.people_alt_outlined,
+                //   title: "Shipping Order (TB_FaHuoDan)",
+                //   page: const JueseListScreen(),
+                // ),
+                // _menuItem(
+                //   context,
+                //   icon: Icons.people_alt_outlined,
+                //   title: "Sended Item (TB_FaHuoMingXiLieBiao)",
+                //   page: const JueseListScreen(),
+                // ),
                 _sectionTitle("MASTER DATA"),
                 _menuItem(
                   context,
@@ -118,6 +270,13 @@ class AppSidebar extends StatelessWidget {
                   title: "Organization Structure",
                   page: const ZuzhiListScreen(),
                 ),
+                if (auth.isAdmin)
+                  _menuItem(
+                    context,
+                    icon: Icons.person_add_alt_outlined,
+                    title: "Register",
+                    page: const RegisterScreen(),
+                  ),
               ],
             ),
           ),
@@ -128,39 +287,58 @@ class AppSidebar extends StatelessWidget {
 
   // ================= HEADER =================
   Widget _buildHeader() {
-    return Container(
-      height: 160,
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFF1976D2), Color(0xFF42A5F5)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 40,
-            child: Image.asset(
-              'assets/images/logo-txt-removebg.png',
-              fit: BoxFit.contain,
+    return Consumer<AuthProvider>(
+      builder: (context, auth, _) {
+        final username = auth.user?.username ?? "Guest";
+
+        return Container(
+          height: 180,
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF1976D2), Color(0xFF42A5F5)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
           ),
-          const SizedBox(height: 12),
-          const Text(
-            "ERP Management System",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 40,
+                child: Image.asset(
+                  'assets/images/logo-txt-removebg.png',
+                  fit: BoxFit.contain,
+                ),
+              ),
+              const SizedBox(height: 12),
+
+              const Text(
+                "ERP Management System",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+
+              const SizedBox(height: 6),
+
+              // 👤 WELCOME USER
+              Text(
+                "Welcome, $username !",
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 

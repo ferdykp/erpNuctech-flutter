@@ -16,7 +16,7 @@ class JiesuanProvider extends ChangeNotifier {
 
       final response = await ApiClient.get(ApiConfig.jiesuan);
 
-      if (response == null || response["data"] == null) {
+      if (response["data"] == null) {
         errorMessage = "Failed to load data";
         data = [];
       } else {
