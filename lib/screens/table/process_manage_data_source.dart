@@ -6,59 +6,72 @@ class ProcessManageDataSource extends DataTableSource {
   final BuildContext context;
   final bool isMobile;
 
+  final double _orderColWidth;
+  final double _customerColWidth;
+  final double _actionColWidth;
+
   ProcessManageDataSource({
     required this.data,
     required this.context,
     required this.isMobile,
-  });
+    required double orderColWidth,
+    required double customerColWidth,
+    required double actionColWidth,
+  }) : _orderColWidth = orderColWidth,
+       _customerColWidth = customerColWidth,
+       _actionColWidth = actionColWidth;
 
   @override
   DataRow? getRow(int index) {
     if (index >= data.length) return null;
-    final w = data[index];
+    final item = data[index];
 
     return DataRow.byIndex(
       index: index,
       cells: [
-        // Order No
-        DataCell(Text(w.orderNo)),
-
-        // Customer Name
+        // Order Number
         DataCell(
           SizedBox(
-            width: isMobile ? 100 : 220,
-            child: Text(
-              w.customerName,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
+            width: _orderColWidth,
+            child: Center(
+              child: Text(
+                item.orderNo,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
         ),
 
-        // Product Name
+        // Customer
         DataCell(
           SizedBox(
-            width: isMobile ? 100 : 220,
-            child: Text(
-              w.productName,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
+            width: _customerColWidth,
+            child: Center(
+              child: Text(
+                item.customerName,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
         ),
-
-        // Task Status
-        // DataCell(Text(_taskStatusLabel(w.taskStatus))),
 
         // Action
         DataCell(
-          ElevatedButton(
-            onPressed: () {
-              showDialog(context: context, builder: (_) => _detailDialog(w));
-            },
-            child: const Text("Detail"),
+          SizedBox(
+            width: _actionColWidth,
+            child: Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (_) => _detailDialog(item),
+                  );
+                },
+                child: const Text("Detail"),
+              ),
+            ),
           ),
         ),
       ],
@@ -75,7 +88,7 @@ class ProcessManageDataSource extends DataTableSource {
   int get selectedRowCount => 0;
 
   // ================= DETAIL DIALOG =================
-  Widget _detailDialog(ProcessManageModel w) {
+  Widget _detailDialog(ProcessManageModel item) {
     return Dialog(
       insetPadding: const EdgeInsets.all(16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -83,7 +96,6 @@ class ProcessManageDataSource extends DataTableSource {
         padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Center(
@@ -94,24 +106,23 @@ class ProcessManageDataSource extends DataTableSource {
               ),
               const SizedBox(height: 20),
 
-              _row("Order No", w.orderNo),
-              _row("Task No", w.taskNo),
-              _row("Customer", w.customerName),
-              _row("Product", w.productName),
-              _row("Batch No", w.batchNo ?? "-"),
-              _row("Task Status", _taskStatusLabel(w.taskStatus)),
-              _row("Quantity", w.quantity.toString()),
-              _row("Min Dose", w.minDose.toString()),
-              _row("Max Dose", w.maxDose.toString()),
+              _row("Order No", item.orderNo),
+              _row("Task No", item.taskNo),
+              _row("Customer", item.customerName),
+              _row("Product", item.productName),
+              _row("Batch No", item.batchNo ?? "-"),
+              _row("Status", _taskStatusLabel(item.taskStatus)),
+              _row("Quantity", item.quantity.toString()),
+              _row("Min Dose", item.minDose.toString()),
+              _row("Max Dose", item.maxDose.toString()),
               _row(
                 "Dimension (L×W×H)",
-                "${w.length} × ${w.width} × ${w.height}",
+                "${item.length} × ${item.width} × ${item.height}",
               ),
-              _row("Weight", w.weight.toString()),
-              _row("Density", w.density.toString()),
-              _row("Submitted At", w.submittedAt),
+              _row("Weight", item.weight.toString()),
+              _row("Density", item.density.toString()),
+              _row("Submitted At", item.submittedAt),
 
-              // _row("Created By", w.createdBy),
               const SizedBox(height: 20),
               Align(
                 alignment: Alignment.centerRight,
@@ -146,7 +157,6 @@ class ProcessManageDataSource extends DataTableSource {
     );
   }
 
-  // ================= STATUS MAPPING =================
   String _taskStatusLabel(int status) {
     switch (status) {
       case 1:

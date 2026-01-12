@@ -13,6 +13,10 @@ class JiesuanListScreen extends StatefulWidget {
 }
 
 class _JiesuanListScreenState extends State<JiesuanListScreen> {
+  static const double idColWidth = 30;
+  static const double paymentColWidth = 110;
+  static const double statusColWidth = 100;
+  static const double actionColWidth = 90;
   @override
   void initState() {
     super.initState();
@@ -59,48 +63,43 @@ class _JiesuanListScreenState extends State<JiesuanListScreen> {
         return SingleChildScrollView(
           child: DataTableTheme(
             data: const DataTableThemeData(
-              dataRowMinHeight: 36, // <<< TAMBAHKAN
-              dataRowMaxHeight: 58, // <<< TAMBAHKAN
+              dataRowMinHeight: 36,
+              dataRowMaxHeight: 58,
             ),
             child: PaginatedDataTable(
               header: const Text("Payment Type"),
               rowsPerPage: isMobile ? 10 : 10,
               columnSpacing: isMobile ? 10 : 30,
               columns: const [
-                DataColumn(label: Text("ID")),
+                // DataColumn(label: Text("ID")),
                 DataColumn(
                   label: SizedBox(
-                    width: 80, // ⬅️ atur lebar header
-                    child: Text(
-                      "Payment",
-                      textAlign: TextAlign.center,
-                      softWrap: true,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    width: idColWidth,
+                    child: Center(child: Text("ID")),
+                  ),
+                ),
+                DataColumn(
+                  label: SizedBox(
+                    width: paymentColWidth, // ⬅️ atur lebar header
+                    child: Center(
+                      child: Text("Payment", textAlign: TextAlign.center),
                     ),
                   ),
                 ),
                 DataColumn(
                   label: SizedBox(
-                    width: 120, // ⬅️ atur lebar header
-                    child: Text(
-                      "Is It Active",
-                      textAlign: TextAlign.center,
-                      softWrap: true,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    width: statusColWidth, // ⬅️ atur lebar header
+                    child: Center(
+                      child: Text("Is It Active", textAlign: TextAlign.center),
                     ),
                   ),
                 ),
 
                 // DataColumn(label: Text("Action")),
                 DataColumn(
-                  label: Center(
-                    child: Text(
-                      "Action",
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                    ),
+                  label: SizedBox(
+                    width: actionColWidth,
+                    child: Center(child: Text("Action")),
                   ),
                 ),
               ],
@@ -108,6 +107,10 @@ class _JiesuanListScreenState extends State<JiesuanListScreen> {
                 data: provider.data,
                 context: context,
                 isMobile: isMobile,
+                idColWidth: idColWidth,
+                paymentColWidth: paymentColWidth,
+                statusColWidth: statusColWidth,
+                actionColWidth: actionColWidth,
               ),
             ),
           ),

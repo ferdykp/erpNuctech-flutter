@@ -97,8 +97,8 @@ class ApiClient {
 
 class ApiConfig {
   /// Flask API
-  static const String baseUrl = "http://127.0.0.1:8000";
-  // static const String baseUrl = "http://192.168.8.181:8000";
+  // static const String baseUrl = "http://127.0.0.1:8000";
+  static const String baseUrl = "http://192.168.8.181:8000";
   // static const String baseUrl = "https://erp.fanm.cloud";
 
   // ===== AUTH =====
@@ -126,4 +126,5 @@ class ApiConfig {
   static const String weituodanrenwu = "/detail-task";
   static const String pichiziliang = "/main-QC";
   static const String processManage = "/process-manage";
+  static const String taskQueue1 = "/task-queue1";
 }

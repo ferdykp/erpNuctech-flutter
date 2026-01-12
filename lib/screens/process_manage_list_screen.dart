@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'table/process_manage_data_source.dart';
+
 import '../layouts/base_layout.dart';
 import '../providers/process_manage_provider.dart';
+import 'table/process_manage_data_source.dart';
 
 class ProcessManageListScreen extends StatefulWidget {
   const ProcessManageListScreen({super.key});
@@ -13,6 +14,10 @@ class ProcessManageListScreen extends StatefulWidget {
 }
 
 class _ProcessManageListScreenState extends State<ProcessManageListScreen> {
+  static const double _orderColWidth = 100;
+  static const double _customerColWidth = 130;
+  static const double _actionColWidth = 100;
+
   @override
   void initState() {
     super.initState();
@@ -23,7 +28,7 @@ class _ProcessManageListScreenState extends State<ProcessManageListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<ProcessManageProvider>(context);
+    final provider = context.watch<ProcessManageProvider>();
 
     return BaseLayout(title: "Process Management", child: _buildBody(provider));
   }
@@ -37,15 +42,13 @@ class _ProcessManageListScreenState extends State<ProcessManageListScreen> {
       return Center(
         child: Text(
           provider.errorMessage!,
-          style: const TextStyle(color: Colors.red, fontSize: 14),
+          style: const TextStyle(color: Colors.red),
         ),
       );
     }
 
     if (provider.data.isEmpty) {
-      return const Center(
-        child: Text("No data", style: TextStyle(fontSize: 14)),
-      );
+      return const Center(child: Text("No data"));
     }
 
     return _buildTable(provider);
@@ -59,60 +62,31 @@ class _ProcessManageListScreenState extends State<ProcessManageListScreen> {
         return SingleChildScrollView(
           child: DataTableTheme(
             data: const DataTableThemeData(
-              dataRowMinHeight: 36,
-              dataRowMaxHeight: 58,
+              headingRowHeight: 48,
+              dataRowMinHeight: 44,
+              dataRowMaxHeight: 56,
             ),
             child: PaginatedDataTable(
-              header: const Text("Process Management"),
-              rowsPerPage: isMobile ? 10 : 10,
-              columnSpacing: isMobile ? 10 : 30,
+              header: const Text("Process List"),
+              rowsPerPage: 10,
+              columnSpacing: isMobile ? 12 : 32,
               columns: const [
-                DataColumn(label: Text("Order Number")),
                 DataColumn(
                   label: SizedBox(
-                    width: 80, // ⬅️ atur lebar header
-                    child: Text(
-                      "Customer",
-                      textAlign: TextAlign.center,
-                      softWrap: true,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    width: _orderColWidth,
+                    child: Center(child: Text("Order No")),
                   ),
                 ),
                 DataColumn(
                   label: SizedBox(
-                    width: 120, // ⬅️ atur lebar header
-                    child: Text(
-                      "Product",
-                      textAlign: TextAlign.center,
-                      softWrap: true,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    width: _customerColWidth,
+                    child: Center(child: Text("Customer")),
                   ),
                 ),
-                // DataColumn(
-                //   label: SizedBox(
-                //     width: 120, // ⬅️ atur lebar header
-                //     child: Text(
-                //       "Status",
-                //       textAlign: TextAlign.center,
-                //       softWrap: true,
-                //       maxLines: 2,
-                //       overflow: TextOverflow.ellipsis,
-                //     ),
-                //   ),
-                // ),
-
-                // DataColumn(label: Text("Action")),
                 DataColumn(
-                  label: Center(
-                    child: Text(
-                      "Action",
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                    ),
+                  label: SizedBox(
+                    width: _actionColWidth,
+                    child: Center(child: Text("Action")),
                   ),
                 ),
               ],
@@ -120,6 +94,9 @@ class _ProcessManageListScreenState extends State<ProcessManageListScreen> {
                 data: provider.data,
                 context: context,
                 isMobile: isMobile,
+                orderColWidth: _orderColWidth,
+                customerColWidth: _customerColWidth,
+                actionColWidth: _actionColWidth,
               ),
             ),
           ),

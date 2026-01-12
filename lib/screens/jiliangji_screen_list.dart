@@ -1,4 +1,3 @@
-// import 'package:erp_nuctech/models/fuzhaopi_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'table/jiliangji_data_source.dart';
@@ -13,6 +12,11 @@ class JiliangjiListScreen extends StatefulWidget {
 }
 
 class _JiliangjiListScreenState extends State<JiliangjiListScreen> {
+  static const double idColWidth = 20;
+  static const double typeColWidth = 120;
+  static const double seriColWidth = 110;
+  static const double actionColWidth = 90;
+
   @override
   void initState() {
     super.initState();
@@ -67,40 +71,46 @@ class _JiliangjiListScreenState extends State<JiliangjiListScreen> {
               rowsPerPage: isMobile ? 10 : 10,
               columnSpacing: isMobile ? 10 : 30,
               columns: const [
-                DataColumn(label: Text("ID")),
+                // DataColumn(label: Text("ID")),
                 DataColumn(
                   label: SizedBox(
-                    width: 80, // ⬅️ atur lebar header
-                    child: Text(
-                      "Dosimeter Type",
-                      textAlign: TextAlign.center,
-                      softWrap: true,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    width: idColWidth,
+                    child: Center(child: Text("ID")),
+                  ),
+                ),
+                DataColumn(
+                  label: SizedBox(
+                    width: typeColWidth, // ⬅️ atur lebar header
+                    child: Center(
+                      child: Text(
+                        "Dosimeter Type",
+                        textAlign: TextAlign.center,
+                        // softWrap: true,
+                        // maxLines: 2,
+                        // overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
                 ),
                 DataColumn(
                   label: SizedBox(
-                    width: 120, // ⬅️ atur lebar header
-                    child: Text(
-                      "Dosimeter S.A",
-                      textAlign: TextAlign.center,
-                      softWrap: true,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    width: seriColWidth, // ⬅️ atur lebar header
+                    child: Center(
+                      child: Text(
+                        "Dosimeter S.A",
+                        textAlign: TextAlign.center,
+                        softWrap: true,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
                 ),
 
-                // DataColumn(label: Text("Action")),
                 DataColumn(
-                  label: Center(
-                    child: Text(
-                      "Action",
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                    ),
+                  label: SizedBox(
+                    width: actionColWidth,
+                    child: Center(child: Text("Action")),
                   ),
                 ),
               ],
@@ -108,6 +118,10 @@ class _JiliangjiListScreenState extends State<JiliangjiListScreen> {
                 data: provider.data,
                 context: context,
                 isMobile: isMobile,
+                idColWidth: idColWidth,
+                typeColWidth: typeColWidth,
+                seriColWidth: seriColWidth,
+                actionColWidth: actionColWidth,
               ),
             ),
           ),

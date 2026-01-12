@@ -1,7 +1,7 @@
+import 'package:erp_nuctech/screens/process_manage_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
-import 'warehouse_list_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -54,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 12),
                       const Text(
-                        "ERP Login",
+                        "Sign In",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 22,
@@ -62,12 +62,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 4),
-                      Text(
-                        "Please Login First",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.grey.shade600),
-                      ),
 
+                      // Text(
+                      //   "Please Login First",
+                      //   textAlign: TextAlign.center,
+                      //   style: TextStyle(color: Colors.grey.shade600),
+                      // ),
                       const SizedBox(height: 24),
 
                       // ================= USERNAME =================
@@ -109,17 +109,30 @@ class _LoginScreenState extends State<LoginScreen> {
                       // ================= ERROR MESSAGE =================
                       if (auth.errorMessage != null)
                         Container(
-                          padding: const EdgeInsets.all(10),
+                          margin: const EdgeInsets.only(bottom: 8),
+                          padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
                             color: Colors.red.shade50,
                             borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Colors.red.shade200),
                           ),
-                          child: Text(
-                            auth.errorMessage!,
-                            style: const TextStyle(
-                              color: Colors.red,
-                              fontSize: 13,
-                            ),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.warning_amber_rounded,
+                                color: Colors.red.shade400,
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  auth.errorMessage!,
+                                  style: TextStyle(
+                                    color: Colors.red.shade700,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
 
@@ -138,17 +151,49 @@ class _LoginScreenState extends State<LoginScreen> {
                               ? null
                               : () async {
                                   final success = await auth.login(
-                                    _userCtrl.text,
-                                    _passCtrl.text,
+                                    _userCtrl.text.trim(),
+                                    _passCtrl.text.trim(),
                                   );
 
-                                  if (!success || !context.mounted) return;
+                                  if (!success) {
+                                    if (!context.mounted) return;
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        behavior: SnackBarBehavior.floating,
+                                        backgroundColor: Colors.red.shade600,
+                                        content: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const Icon(
+                                              Icons.warning_amber_rounded,
+                                              color: Colors.white,
+                                            ),
+                                            const SizedBox(width: 8),
+                                            Flexible(
+                                              child: Text(
+                                                auth.errorMessage ??
+                                                    "Login gagal",
+                                                textAlign: TextAlign.center,
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                    return;
+                                  }
+
+                                  if (!context.mounted) return;
 
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                       builder: (_) =>
-                                          const WarehouseListScreen(),
+                                          const ProcessManageListScreen(),
                                     ),
                                   );
                                 },

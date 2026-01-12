@@ -13,6 +13,10 @@ class FuzhaopiListScreen extends StatefulWidget {
 }
 
 class _FuzhaopiListScreenState extends State<FuzhaopiListScreen> {
+  static const double idColWidth = 40;
+  static const double statusColWidth = 100;
+  static const double opsColWidth = 105;
+  static const double actionColWidth = 95;
   @override
   void initState() {
     super.initState();
@@ -60,48 +64,46 @@ class _FuzhaopiListScreenState extends State<FuzhaopiListScreen> {
         return SingleChildScrollView(
           child: DataTableTheme(
             data: const DataTableThemeData(
-              dataRowMinHeight: 36, // <<< TAMBAHKAN
-              dataRowMaxHeight: 58, // <<< TAMBAHKAN
+              dataRowMinHeight: 36,
+              dataRowMaxHeight: 58,
             ),
             child: PaginatedDataTable(
               header: const Text("Radiation Batch Operation Logs"),
-              rowsPerPage: isMobile ? 10 : 10,
-              columnSpacing: isMobile ? 10 : 30,
+              columnSpacing: isMobile ? 10 : 32,
               columns: const [
-                DataColumn(label: Text("Log ID")),
                 DataColumn(
                   label: SizedBox(
-                    width: 80, // ⬅️ atur lebar header
-                    child: Text(
-                      "Batch Status",
-                      textAlign: TextAlign.center,
-                      softWrap: true,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    width: idColWidth,
+                    child: Center(child: Text("ID")),
+                  ),
+                ),
+                DataColumn(
+                  label: SizedBox(
+                    width: statusColWidth, // ⬅️ atur lebar header
+                    child: Center(
+                      child: Text("Batch Status", textAlign: TextAlign.center),
                     ),
                   ),
                 ),
                 DataColumn(
                   label: SizedBox(
-                    width: 120, // ⬅️ atur lebar header
-                    child: Text(
-                      "Operation Description",
-                      textAlign: TextAlign.center,
-                      softWrap: true,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    width: opsColWidth,
+                    child: Center(
+                      child: Text(
+                        "Operation Description",
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
                 ),
 
                 // DataColumn(label: Text("Action")),
                 DataColumn(
-                  label: Center(
-                    child: Text(
-                      "Action",
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                    ),
+                  label: SizedBox(
+                    width: actionColWidth,
+                    child: Center(child: Text("Action")),
                   ),
                 ),
               ],
@@ -109,6 +111,10 @@ class _FuzhaopiListScreenState extends State<FuzhaopiListScreen> {
                 data: provider.data,
                 context: context,
                 isMobile: isMobile,
+                idColWidth: idColWidth,
+                statusColWidth: statusColWidth,
+                opsColWidth: opsColWidth,
+                actionColWidth: actionColWidth,
               ),
             ),
           ),

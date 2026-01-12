@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import '../core/network/api_client.dart';
 import '../models/login_model.dart';
@@ -18,27 +19,46 @@ class AuthProvider extends ChangeNotifier {
       final response = await ApiClient.post(ApiConfig.login, {
         "username": username,
         "password": password,
-      });
+      }).timeout(const Duration(seconds: 5));
 
       final result = LoginResponse.fromJson(response);
 
+      /// ❌ LOGIN GAGAL (dari backend)
       if (!result.status) {
-        errorMessage = result.message;
+        errorMessage = result.message.isNotEmpty
+            ? result.message
+            : "Username atau password salah";
         loading = false;
         notifyListeners();
         return false;
       }
 
+      /// ✅ LOGIN BERHASIL
       user = result.data;
       loading = false;
       notifyListeners();
       return true;
-    } catch (e) {
-      errorMessage = e.toString();
-      loading = false;
-      notifyListeners();
-      return false;
     }
+    /// ⏱ TIMEOUT
+    on TimeoutException {
+      errorMessage = "Server belum aktif atau koneksi timeout";
+    }
+    /// 🌐 NETWORK / SERVER ERROR
+    catch (e) {
+      final msg = e.toString().toLowerCase();
+
+      if (msg.contains("socket") ||
+          msg.contains("connection") ||
+          msg.contains("network")) {
+        errorMessage = "Server Off";
+      } else {
+        errorMessage = "Terjadi kesalahan, silakan coba lagi";
+      }
+    }
+
+    loading = false;
+    notifyListeners();
+    return false;
   }
 
   Future<bool> registerUser({
@@ -61,18 +81,21 @@ class AuthProvider extends ChangeNotifier {
         "admin_username": user!.username,
         "username": newUsername,
         "password": newPassword,
-        "role": role, // ← dari dropdown
-      });
+        "role": role,
+      }).timeout(const Duration(seconds: 5));
 
       loading = false;
       notifyListeners();
 
       return response['status'] == true;
+    } on TimeoutException {
+      errorMessage = "Server tidak merespon (timeout)";
     } catch (e) {
-      loading = false;
-      errorMessage = e.toString();
-      notifyListeners();
-      return false;
+      errorMessage = "Gagal mendaftarkan user";
     }
+
+    loading = false;
+    notifyListeners();
+    return false;
   }
 }

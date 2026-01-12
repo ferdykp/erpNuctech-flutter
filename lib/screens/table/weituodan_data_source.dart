@@ -6,10 +6,17 @@ class WeituodanDataSource extends DataTableSource {
   final BuildContext context;
   final bool isMobile;
 
+  final double orderColWidth;
+  final double arrivalColWidth;
+  final double actionColWidth;
+
   WeituodanDataSource({
     required this.data,
     required this.context,
     required this.isMobile,
+    required this.orderColWidth,
+    required this.arrivalColWidth,
+    required this.actionColWidth,
   });
 
   @override
@@ -20,37 +27,46 @@ class WeituodanDataSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
-        DataCell(Text(w.weituodanhao)),
-        // DataCell(Text(w.picizhuangtai == 1 ? "Active" : "No")),
         DataCell(
           SizedBox(
-            width: isMobile ? 80 : 300,
-            child: Text(
-              w.weituodanzhuangtai.toString(),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis, // <<< PENTING
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-
-        DataCell(
-          SizedBox(
-            width: isMobile ? 110 : 300,
-            child: Text(
-              w.daohuoriqi,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis, // <<< PENTING
-              textAlign: TextAlign.center,
+            width: orderColWidth,
+            child: Center(
+              child: Text(
+                w.weituodanhao,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
         ),
         DataCell(
-          ElevatedButton(
-            onPressed: () {
-              showDialog(context: context, builder: (_) => _detailDialog(w));
-            },
-            child: const Text("Detail"),
+          SizedBox(
+            width: arrivalColWidth,
+            child: Center(
+              child: Text(
+                w.daohuoriqi,
+                textAlign: TextAlign.center,
+                // maxLines: 1,
+                // overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+        ),
+        DataCell(
+          SizedBox(
+            width: actionColWidth,
+            child: Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (_) => _detailDialog(w),
+                  );
+                },
+                child: const Text("Detail"),
+              ),
+            ),
           ),
         ),
       ],
@@ -66,7 +82,7 @@ class WeituodanDataSource extends DataTableSource {
   @override
   int get selectedRowCount => 0;
 
-  // ===== DETAIL DIALOG =====
+  // ================= DETAIL DIALOG =================
   Widget _detailDialog(Weituodan w) {
     return Dialog(
       insetPadding: const EdgeInsets.all(16),
@@ -79,7 +95,7 @@ class WeituodanDataSource extends DataTableSource {
           children: [
             const Center(
               child: Text(
-                "Customer Contact Person",
+                "Customer Order Detail",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
@@ -91,7 +107,6 @@ class WeituodanDataSource extends DataTableSource {
             _row("Quantity", w.zongshu.toString()),
             _row("Total", w.yingshou.toString()),
             _row("Paid", w.yishou.toString()),
-
             const SizedBox(height: 20),
             Align(
               alignment: Alignment.centerRight,

@@ -13,6 +13,10 @@ class WarehouseListScreen extends StatefulWidget {
 }
 
 class _WarehouseListScreenState extends State<WarehouseListScreen> {
+  static const double _idColWidth = 20;
+  static const double _catColWidth = 110;
+  static const double _picColWidth = 90;
+  static const double _actionColWidth = 90;
   @override
   void initState() {
     super.initState();
@@ -65,48 +69,43 @@ class _WarehouseListScreenState extends State<WarehouseListScreen> {
         return SingleChildScrollView(
           child: DataTableTheme(
             data: const DataTableThemeData(
-              dataRowMinHeight: 36, // <<< TAMBAHKAN
-              dataRowMaxHeight: 58, // <<< TAMBAHKAN
+              headingRowHeight: 48,
+              dataRowMinHeight: 44,
+              dataRowMaxHeight: 58,
             ),
             child: PaginatedDataTable(
               header: const Text("Warehouse"),
-              rowsPerPage: isMobile ? 10 : 10,
-              columnSpacing: isMobile ? 10 : 30,
+              rowsPerPage: 10,
+              columnSpacing: isMobile ? 12 : 32,
               columns: const [
-                DataColumn(label: Text("ID")),
+                // DataColumn(label: Text("ID")),
                 DataColumn(
                   label: SizedBox(
-                    width: 80, // ⬅️ atur lebar header
-                    child: Text(
-                      "Category",
-                      textAlign: TextAlign.center,
-                      softWrap: true,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    width: _idColWidth,
+                    child: Center(child: Text("ID")),
+                  ),
+                ),
+                DataColumn(
+                  label: SizedBox(
+                    width: _catColWidth,
+                    child: Center(
+                      child: Text("Category", textAlign: TextAlign.center),
                     ),
                   ),
                 ),
                 DataColumn(
                   label: SizedBox(
-                    width: 120, // ⬅️ atur lebar header
-                    child: Text(
-                      "PIC",
-                      textAlign: TextAlign.center,
-                      softWrap: true,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    width: _picColWidth, // ⬅️ atur lebar header
+                    child: Center(
+                      child: Text("PIC", textAlign: TextAlign.center),
                     ),
                   ),
                 ),
 
-                // DataColumn(label: Text("Action")),
                 DataColumn(
-                  label: Center(
-                    child: Text(
-                      "Action",
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                    ),
+                  label: SizedBox(
+                    width: _actionColWidth,
+                    child: Center(child: Text("Action")),
                   ),
                 ),
               ],
@@ -114,6 +113,10 @@ class _WarehouseListScreenState extends State<WarehouseListScreen> {
                 data: provider.warehouses,
                 context: context,
                 isMobile: isMobile,
+                idColWidth: _idColWidth,
+                catColWidth: _catColWidth,
+                picColWidth: _picColWidth,
+                actionColWidth: _actionColWidth,
               ),
             ),
           ),

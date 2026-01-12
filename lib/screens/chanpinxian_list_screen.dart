@@ -14,6 +14,11 @@ class ChanpinXianListScreen extends StatefulWidget {
 }
 
 class _ChanpinXianListScreenState extends State<ChanpinXianListScreen> {
+  static const double idColWidth = 20;
+  static const double productColWidth = 110;
+  static const double functionColWidth = 90;
+  static const double actionColWidth = 90;
+
   @override
   void initState() {
     super.initState();
@@ -23,7 +28,7 @@ class _ChanpinXianListScreenState extends State<ChanpinXianListScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ChanPinXianProvider>(context);
-    return BaseLayout(title: "Tes", child: _buildBody(provider));
+    return BaseLayout(title: "Line Production", child: _buildBody(provider));
   }
 
   Widget _buildBody(ChanPinXianProvider provider) {
@@ -55,23 +60,58 @@ class _ChanpinXianListScreenState extends State<ChanpinXianListScreen> {
         return SingleChildScrollView(
           child: DataTableTheme(
             data: const DataTableThemeData(
-              dataRowMinHeight: 36, // <<< TAMBAHKAN
-              dataRowMaxHeight: 58, // <<< TAMBAHKAN
+              headingRowHeight: 48,
+              dataRowMinHeight: 36,
+              dataRowMaxHeight: 58,
             ),
             child: PaginatedDataTable(
-              header: const Text("ChanPinXian"),
-              rowsPerPage: isMobile ? 10 : 10,
-              columnSpacing: isMobile ? 10 : 30,
+              header: const Text("Line Production"),
+              rowsPerPage: 10,
+              columnSpacing: isMobile ? 12 : 32,
               columns: const [
-                DataColumn(label: Text("ID")),
-                DataColumn(label: Text("Production Name")),
-                DataColumn(label: Text("Function")),
-                DataColumn(label: Text("Action")),
+                DataColumn(
+                  label: SizedBox(
+                    width: idColWidth,
+                    child: Center(child: Text("ID")),
+                  ),
+                ),
+                DataColumn(
+                  label: SizedBox(
+                    width: productColWidth,
+                    child: Center(
+                      child: Text(
+                        "Production Name",
+                        softWrap: true,
+                        overflow: TextOverflow.visible,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
+
+                DataColumn(
+                  label: SizedBox(
+                    width: functionColWidth, // ⬅️ atur lebar header
+                    child: Center(
+                      child: Text("Function", textAlign: TextAlign.center),
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: SizedBox(
+                    width: actionColWidth,
+                    child: Center(child: Text("Action")),
+                  ),
+                ),
               ],
               source: ChanpinxianDataSource(
                 data: provider.data,
                 context: context,
                 isMobile: isMobile,
+                idColWidth: idColWidth,
+                productColWidth: productColWidth,
+                functionColWidth: functionColWidth,
+                actionColWidth: actionColWidth,
               ),
             ),
           ),

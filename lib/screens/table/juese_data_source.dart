@@ -6,11 +6,20 @@ class JueseDataSource extends DataTableSource {
   final BuildContext context;
   final bool isMobile;
 
+  final double _idColWidth;
+  final double _nameColWidth;
+  final double _actionColWidth;
+
   JueseDataSource({
     required this.data,
     required this.context,
     required this.isMobile,
-  });
+    required double idColWidth,
+    required double nameColWidth,
+    required double actionColWidth,
+  }) : _idColWidth = idColWidth,
+       _nameColWidth = nameColWidth,
+       _actionColWidth = actionColWidth;
 
   @override
   DataRow? getRow(int index) {
@@ -20,37 +29,36 @@ class JueseDataSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
-        DataCell(Text(w.xtjsid.toString())),
-        // DataCell(Text(w.picizhuangtai == 1 ? "Active" : "No")),
+        // DataCell(Text(w.xtjsid.toString())),
         DataCell(
           SizedBox(
-            width: isMobile ? 80 : 300,
-            child: Text(
-              w.juesemingcheng,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis, // <<< PENTING
-              textAlign: TextAlign.center,
+            width: _idColWidth,
+            child: Center(child: Text(w.xtjsid.toString())),
+          ),
+        ),
+        DataCell(
+          SizedBox(
+            width: _nameColWidth,
+            child: Center(
+              child: Text(w.juesemingcheng, textAlign: TextAlign.center),
             ),
           ),
         ),
 
         DataCell(
           SizedBox(
-            width: isMobile ? 110 : 300,
-            child: Text(
-              w.juesemiaoshu,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis, // <<< PENTING
-              textAlign: TextAlign.center,
+            width: _actionColWidth,
+            child: Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (_) => _detailDialog(w),
+                  );
+                },
+                child: const Text("Detail"),
+              ),
             ),
-          ),
-        ),
-        DataCell(
-          ElevatedButton(
-            onPressed: () {
-              showDialog(context: context, builder: (_) => _detailDialog(w));
-            },
-            child: const Text("Detail"),
           ),
         ),
       ],

@@ -13,6 +13,11 @@ class KehufuListScreen extends StatefulWidget {
 }
 
 class _KehufuListScreenState extends State<KehufuListScreen> {
+  // static const double idColWidth = 20;
+  // static const double catColWidth = 110;
+  // static const double validColWidth = 90;
+  // static const double actionColWidth = 90;
+
   @override
   void initState() {
     super.initState();

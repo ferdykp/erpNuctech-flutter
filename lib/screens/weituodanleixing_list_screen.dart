@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'table/weituodanleixing_data_source.dart.dart';
+import 'table/weituodanleixing_data_source.dart';
 import '../layouts/base_layout.dart';
 import '../providers/weituodanleixing_provider.dart';
 
@@ -14,6 +14,10 @@ class WeituodanleixingListScreen extends StatefulWidget {
 
 class _WeituodanleixingListScreenState
     extends State<WeituodanleixingListScreen> {
+  static const double idColWidth = 20;
+  static const double nameColWidth = 200;
+  static const double actionColWidth = 90;
+
   @override
   void initState() {
     super.initState();
@@ -25,7 +29,6 @@ class _WeituodanleixingListScreenState
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<WeituodanleixingProvider>(context);
-
     return BaseLayout(title: "Order Type", child: _buildBody(provider));
   }
 
@@ -38,58 +41,57 @@ class _WeituodanleixingListScreenState
       return Center(
         child: Text(
           provider.errorMessage!,
-          style: const TextStyle(color: Colors.red, fontSize: 14),
+          style: const TextStyle(color: Colors.red),
         ),
       );
     }
 
     if (provider.data.isEmpty) {
-      return const Center(
-        child: Text("No data", style: TextStyle(fontSize: 14)),
-      );
+      return const Center(child: Text("No data"));
     }
 
-    return _buildTable(provider);
-  }
-
-  Widget _buildTable(WeituodanleixingProvider provider) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isMobile = constraints.maxWidth < 600;
 
         return SingleChildScrollView(
+          // padding: const EdgeInsets.all(),
           child: DataTableTheme(
             data: const DataTableThemeData(
-              dataRowMinHeight: 36,
-              dataRowMaxHeight: 58,
+              headingRowHeight: 48,
+              dataRowMinHeight: 44,
+              dataRowMaxHeight: 56,
             ),
             child: PaginatedDataTable(
-              header: const Text("Order Type"),
+              header: const Text(
+                "Order Type",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               rowsPerPage: isMobile ? 10 : 10,
               columnSpacing: isMobile ? 10 : 30,
-              columns: const [
-                DataColumn(label: Text("ID")),
+              columns: [
                 DataColumn(
                   label: SizedBox(
-                    width: 80, // ⬅️ atur lebar header
-                    child: Text(
-                      "Order Type Name",
-                      textAlign: TextAlign.center,
-                      softWrap: true,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    width: idColWidth,
+                    child: const Center(child: Text("ID")),
+                  ),
+                ),
+                DataColumn(
+                  label: SizedBox(
+                    width: nameColWidth,
+                    child: const Center(
+                      child: Text(
+                        "Order Type Name",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
                 ),
-
-                // DataColumn(label: Text("Action")),
                 DataColumn(
-                  label: Center(
-                    child: Text(
-                      "Action",
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                    ),
+                  label: SizedBox(
+                    width: actionColWidth,
+                    child: const Center(child: Text("Action")),
                   ),
                 ),
               ],
@@ -97,6 +99,9 @@ class _WeituodanleixingListScreenState
                 data: provider.data,
                 context: context,
                 isMobile: isMobile,
+                idColWidth: idColWidth,
+                nameColWidth: nameColWidth,
+                actionColWidth: actionColWidth,
               ),
             ),
           ),

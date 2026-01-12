@@ -6,10 +6,17 @@ class WeituodanrenwuDataSource extends DataTableSource {
   final BuildContext context;
   final bool isMobile;
 
+  final double idColWidth;
+  final double nameColWidth;
+  final double actionColWidth;
+
   WeituodanrenwuDataSource({
     required this.data,
     required this.context,
     required this.isMobile,
+    required this.idColWidth,
+    required this.nameColWidth,
+    required this.actionColWidth,
   });
 
   @override
@@ -20,26 +27,41 @@ class WeituodanrenwuDataSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
-        DataCell(Text(w.renwunhao)),
-        // DataCell(Text(w.picizhuangtai == 1 ? "Active" : "No")),
         DataCell(
           SizedBox(
-            width: isMobile ? 80 : 300,
-            child: Text(
-              w.baozhuang,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis, // <<< PENTING
-              textAlign: TextAlign.center,
+            width: idColWidth,
+            child: Center(
+              child: Text(w.renwunhao.toString(), textAlign: TextAlign.center),
             ),
           ),
         ),
-
         DataCell(
-          ElevatedButton(
-            onPressed: () {
-              showDialog(context: context, builder: (_) => _detailDialog(w));
-            },
-            child: const Text("Detail"),
+          SizedBox(
+            width: nameColWidth,
+            child: Center(
+              child: Text(
+                w.baozhuang,
+                maxLines: 1,
+                // overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ),
+        DataCell(
+          SizedBox(
+            width: actionColWidth,
+            child: Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (_) => _detailDialog(w),
+                  );
+                },
+                child: const Text("Detail"),
+              ),
+            ),
           ),
         ),
       ],
@@ -55,7 +77,7 @@ class WeituodanrenwuDataSource extends DataTableSource {
   @override
   int get selectedRowCount => 0;
 
-  // ===== DETAIL DIALOG =====
+  // ================= DETAIL DIALOG =================
   Widget _detailDialog(Weituodanrenwu w) {
     return Dialog(
       insetPadding: const EdgeInsets.all(16),
@@ -80,7 +102,6 @@ class WeituodanrenwuDataSource extends DataTableSource {
             _row("Dose Min", w.yaoqiuzuixiao.toString()),
             _row("Dose Max", w.yaoqiuzuidaiji.toString()),
             _row("Estimate", w.jine.toString()),
-
             const SizedBox(height: 20),
             Align(
               alignment: Alignment.centerRight,

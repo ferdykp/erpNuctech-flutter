@@ -5,11 +5,19 @@ class JiesuanDataSource extends DataTableSource {
   final List<Jiesuan> data;
   final BuildContext context;
   final bool isMobile;
+  final double idColWidth;
+  final double paymentColWidth;
+  final double statusColWidth;
+  final double actionColWidth;
 
   JiesuanDataSource({
     required this.data,
     required this.context,
     required this.isMobile,
+    required this.idColWidth,
+    required this.paymentColWidth,
+    required this.statusColWidth,
+    required this.actionColWidth,
   });
 
   @override
@@ -20,37 +28,46 @@ class JiesuanDataSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
-        DataCell(Text(w.jslxid.toString())),
-        // DataCell(Text(w.picizhuangtai == 1 ? "Active" : "No")),
         DataCell(
           SizedBox(
-            width: isMobile ? 80 : 300,
-            child: Text(
-              w.jiesuanlei,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis, // <<< PENTING
-              textAlign: TextAlign.center,
+            width: idColWidth,
+            child: Center(child: Text(w.jslxid.toString())),
+          ),
+        ),
+        DataCell(
+          SizedBox(
+            width: paymentColWidth,
+            child: Center(
+              child: Text(w.jiesuanlei, textAlign: TextAlign.center),
             ),
           ),
         ),
 
         DataCell(
           SizedBox(
-            width: isMobile ? 110 : 300,
-            child: Text(
-              w.shifouyouxiao == 1 ? "Active" : "No",
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis, // <<< PENTING
-              textAlign: TextAlign.center,
+            width: statusColWidth,
+            child: Center(
+              child: Text(
+                w.shifouyouxiao == 1 ? "Active" : "No",
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
         ),
         DataCell(
-          ElevatedButton(
-            onPressed: () {
-              showDialog(context: context, builder: (_) => _detailDialog(w));
-            },
-            child: const Text("Detail"),
+          SizedBox(
+            width: actionColWidth,
+            child: Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (_) => _detailDialog(w),
+                  );
+                },
+                child: const Text("Detail"),
+              ),
+            ),
           ),
         ),
       ],

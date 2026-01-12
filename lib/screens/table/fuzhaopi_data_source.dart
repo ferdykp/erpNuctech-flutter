@@ -5,11 +5,19 @@ class FuzhaopiDataSource extends DataTableSource {
   final List<Fuzhaopi> data;
   final BuildContext context;
   final bool isMobile;
+  final double idColWidth;
+  final double statusColWidth;
+  final double opsColWidth;
+  final double actionColWidth;
 
   FuzhaopiDataSource({
     required this.data,
     required this.context,
     required this.isMobile,
+    required this.idColWidth,
+    required this.statusColWidth,
+    required this.opsColWidth,
+    required this.actionColWidth,
   });
 
   @override
@@ -20,37 +28,46 @@ class FuzhaopiDataSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
-        DataCell(Text(w.pcczjlid.toString())),
-        // DataCell(Text(w.picizhuangtai == 1 ? "Active" : "No")),
         DataCell(
           SizedBox(
-            width: isMobile ? 80 : 300,
-            child: Text(
-              w.picizhuangtai == 1 ? "Active" : "No",
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis, // <<< PENTING
-              textAlign: TextAlign.center,
+            width: idColWidth,
+            child: Center(child: Text(w.pcczjlid.toString())),
+          ),
+        ),
+        DataCell(
+          SizedBox(
+            width: statusColWidth,
+            child: Center(
+              child: Text(
+                w.picizhuangtai == 1 ? "Active" : "No",
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
         ),
 
         DataCell(
           SizedBox(
-            width: isMobile ? 110 : 300,
-            child: Text(
-              w.caozuoneirong,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis, // <<< PENTING
-              textAlign: TextAlign.center,
+            width: opsColWidth,
+            child: Center(
+              child: Text(w.caozuoneirong, textAlign: TextAlign.center),
             ),
           ),
         ),
         DataCell(
-          ElevatedButton(
-            onPressed: () {
-              showDialog(context: context, builder: (_) => _detailDialog(w));
-            },
-            child: const Text("Detail"),
+          SizedBox(
+            width: actionColWidth,
+            child: Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (_) => _detailDialog(w),
+                  );
+                },
+                child: const Text("Detail"),
+              ),
+            ),
           ),
         ),
       ],

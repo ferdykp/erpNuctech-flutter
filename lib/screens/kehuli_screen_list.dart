@@ -13,6 +13,11 @@ class KehuliListScreen extends StatefulWidget {
 }
 
 class _KehuliListScreenState extends State<KehuliListScreen> {
+  static const double idColWidth = 40;
+  static const double nameColWidth = 90;
+  static const double phoneColWidth = 100;
+  static const double actionColWidth = 100;
+
   @override
   void initState() {
     super.initState();
@@ -67,40 +72,39 @@ class _KehuliListScreenState extends State<KehuliListScreen> {
               rowsPerPage: isMobile ? 10 : 10,
               columnSpacing: isMobile ? 10 : 30,
               columns: const [
-                DataColumn(label: Text("Contacts ID")),
                 DataColumn(
                   label: SizedBox(
-                    width: 80, // ⬅️ atur lebar header
-                    child: Text(
-                      "Name",
-                      textAlign: TextAlign.center,
-                      softWrap: true,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    width: idColWidth,
+                    child: Center(child: Text("ID")),
+                  ),
+                ),
+                DataColumn(
+                  label: SizedBox(
+                    width: nameColWidth, // ⬅️ atur lebar header
+                    child: Center(
+                      child: Text("Name", textAlign: TextAlign.center),
                     ),
                   ),
                 ),
                 DataColumn(
                   label: SizedBox(
-                    width: 120, // ⬅️ atur lebar header
-                    child: Text(
-                      "Mobile Phone",
-                      textAlign: TextAlign.center,
-                      softWrap: true,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    width: phoneColWidth, // ⬅️ atur lebar header
+                    child: Center(
+                      child: Text(
+                        "Mobile Phone",
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
                 ),
 
                 // DataColumn(label: Text("Action")),
                 DataColumn(
-                  label: Center(
-                    child: Text(
-                      "Action",
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                    ),
+                  label: SizedBox(
+                    width: actionColWidth,
+                    child: Center(child: Text("Action")),
                   ),
                 ),
               ],
@@ -108,6 +112,10 @@ class _KehuliListScreenState extends State<KehuliListScreen> {
                 data: provider.data,
                 context: context,
                 isMobile: isMobile,
+                idColWidth: idColWidth,
+                nameColWidth: nameColWidth,
+                phoneColWidth: phoneColWidth,
+                actionColWidth: actionColWidth,
               ),
             ),
           ),

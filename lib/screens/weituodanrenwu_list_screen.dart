@@ -13,6 +13,11 @@ class WeituodanrenwuListScreen extends StatefulWidget {
 }
 
 class _WeituodanrenwuListScreenState extends State<WeituodanrenwuListScreen> {
+  // === KONSISTEN WIDTH KOLOM (WAJIB SAMA DENGAN DATASOURCE) ===
+  static const double idColWidth = 90;
+  static const double nameColWidth = 180;
+  static const double actionColWidth = 100;
+
   @override
   void initState() {
     super.initState();
@@ -24,7 +29,6 @@ class _WeituodanrenwuListScreenState extends State<WeituodanrenwuListScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<WeituodanrenwuProvider>(context);
-
     return BaseLayout(title: "Detail Task", child: _buildBody(provider));
   }
 
@@ -37,58 +41,57 @@ class _WeituodanrenwuListScreenState extends State<WeituodanrenwuListScreen> {
       return Center(
         child: Text(
           provider.errorMessage!,
-          style: const TextStyle(color: Colors.red, fontSize: 14),
+          style: const TextStyle(color: Colors.red),
         ),
       );
     }
 
     if (provider.data.isEmpty) {
-      return const Center(
-        child: Text("No data", style: TextStyle(fontSize: 14)),
-      );
+      return const Center(child: Text("No data"));
     }
 
-    return _buildTable(provider);
-  }
-
-  Widget _buildTable(WeituodanrenwuProvider provider) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isMobile = constraints.maxWidth < 600;
 
         return SingleChildScrollView(
+          // padding: const EdgeInsets.all(12),
           child: DataTableTheme(
             data: const DataTableThemeData(
-              dataRowMinHeight: 36,
-              dataRowMaxHeight: 58,
+              headingRowHeight: 48,
+              dataRowMinHeight: 44,
+              dataRowMaxHeight: 56,
             ),
             child: PaginatedDataTable(
-              header: const Text("Detail Task"),
-              rowsPerPage: isMobile ? 10 : 10,
-              columnSpacing: isMobile ? 10 : 30,
-              columns: const [
-                DataColumn(label: Text("ID")),
+              header: const Text(
+                "Detail Task",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              rowsPerPage: 10,
+              columnSpacing: 0, // ⬅️ penting agar presisi
+              columns: [
                 DataColumn(
                   label: SizedBox(
-                    width: 80, // ⬅️ atur lebar header
-                    child: Text(
-                      "Packaging",
-                      textAlign: TextAlign.center,
-                      softWrap: true,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    width: idColWidth,
+                    child: const Center(child: Text("ID")),
+                  ),
+                ),
+                DataColumn(
+                  label: SizedBox(
+                    width: nameColWidth,
+                    child: const Center(
+                      child: Text(
+                        "Packaging",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
                 ),
-
-                // DataColumn(label: Text("Action")),
                 DataColumn(
-                  label: Center(
-                    child: Text(
-                      "Action",
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                    ),
+                  label: SizedBox(
+                    width: actionColWidth,
+                    child: const Center(child: Text("Action")),
                   ),
                 ),
               ],
@@ -96,6 +99,9 @@ class _WeituodanrenwuListScreenState extends State<WeituodanrenwuListScreen> {
                 data: provider.data,
                 context: context,
                 isMobile: isMobile,
+                idColWidth: idColWidth,
+                nameColWidth: nameColWidth,
+                actionColWidth: actionColWidth,
               ),
             ),
           ),

@@ -1,14 +1,19 @@
-import 'package:erp_nuctech/screens/juese_list_screen.dart';
-import 'package:erp_nuctech/screens/kehuxin_list_screen.dart';
-import 'package:erp_nuctech/screens/process_manage_list_screen.dart';
-import 'package:erp_nuctech/screens/register_screen.dart';
-import 'package:erp_nuctech/screens/weituodan_list_screen.dart';
-import 'package:erp_nuctech/screens/weituodanleixing_list_screen.dart';
-import 'package:erp_nuctech/screens/weituodanrenwu_list_screen.dart';
-import 'package:erp_nuctech/screens/zuzhi_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+// ===== PROVIDER =====
 import '../providers/auth_provider.dart';
+
+// ===== SCREENS =====
+import '../screens/juese_list_screen.dart';
+import '../screens/kehuxin_list_screen.dart';
+import '../screens/process_manage_list_screen.dart';
+import '../screens/register_screen.dart';
+import '../screens/task_queue1_list_screen.dart';
+import '../screens/weituodan_list_screen.dart';
+import '../screens/weituodanleixing_list_screen.dart';
+import '../screens/weituodanrenwu_list_screen.dart';
+// import '../screens/zuzhi_list_screen.dart';
 
 import '../screens/warehouse_list_screen.dart';
 import '../screens/chanpinxian_list_screen.dart';
@@ -19,15 +24,179 @@ import '../screens/fuzhaojielunleixing_list_screen.dart';
 import '../screens/jiesuan_list_screen.dart';
 import '../screens/jiliang_screen_list.dart';
 import '../screens/jiliangji_screen_list.dart';
-import '../screens/kehufu_list_screen.dart';
+// import '../screens/kehufu_list_screen.dart';
 import '../screens/kehuli_screen_list.dart';
 
+// ======================================================
+// ===================== MODEL ==========================
+// ======================================================
+class SidebarMenu {
+  final String title;
+  final IconData icon;
+  final Widget page;
+  final bool adminOnly;
+
+  const SidebarMenu({
+    required this.title,
+    required this.icon,
+    required this.page,
+    this.adminOnly = false,
+  });
+}
+
+// ======================================================
+// ================= MENU CONFIG ========================
+// ======================================================
+final List<Map<String, dynamic>> sidebarSections = [
+  {
+    "title": "Management Production",
+    "menus": const [
+      SidebarMenu(
+        title: "Process Management",
+        icon: Icons.settings_outlined,
+        page: ProcessManageListScreen(),
+      ),
+      SidebarMenu(
+        title: "Task Queue Acc 1",
+        icon: Icons.queue_outlined,
+        page: TaskQueue1ListScreen(),
+      ),
+    ],
+  },
+  {
+    "title": "Order Job",
+    "menus": const [
+      SidebarMenu(
+        title: "Customer Order",
+        icon: Icons.assignment_outlined,
+        page: WeituodanListScreen(),
+      ),
+      SidebarMenu(
+        title: "Type Service",
+        icon: Icons.category_outlined,
+        page: WeituodanleixingListScreen(),
+      ),
+      SidebarMenu(
+        title: "Work Detail",
+        icon: Icons.work_outline,
+        page: WeituodanrenwuListScreen(),
+      ),
+    ],
+  },
+  {
+    "title": "MASTER DATA",
+    "adminOnly": true,
+    "menus": const [
+      SidebarMenu(
+        title: "User Role",
+        icon: Icons.people_outline,
+        page: JueseListScreen(),
+        adminOnly: true,
+      ),
+      SidebarMenu(
+        title: "Warehouse",
+        icon: Icons.warehouse_outlined,
+        page: WarehouseListScreen(),
+        adminOnly: true,
+      ),
+      SidebarMenu(
+        title: "Line Production",
+        icon: Icons.precision_manufacturing_outlined,
+        page: ChanpinXianListScreen(),
+        adminOnly: true,
+      ),
+      SidebarMenu(
+        title: "Radiation Conclusion",
+        icon: Icons.rule_folder_outlined,
+        page: FuzhaoListScreen(),
+        adminOnly: true,
+      ),
+      SidebarMenu(
+        title: "Radiation Batch",
+        icon: Icons.layers_outlined,
+        page: FuzhaopiListScreen(),
+        adminOnly: true,
+      ),
+      SidebarMenu(
+        title: "Payment Type",
+        icon: Icons.payments_outlined,
+        page: JiesuanListScreen(),
+        adminOnly: true,
+      ),
+      SidebarMenu(
+        title: "Measurement Units",
+        icon: Icons.straighten_outlined,
+        page: JiliangListScreen(),
+        adminOnly: true,
+      ),
+      SidebarMenu(
+        title: "Dosimeter Type",
+        icon: Icons.monitor_heart_outlined,
+        page: JiliangjiListScreen(),
+        adminOnly: true,
+      ),
+    ],
+  },
+  {
+    "title": "TRANSACTION",
+    "adminOnly": true,
+    "menus": const [
+      SidebarMenu(
+        title: "Operation Log",
+        icon: Icons.list_alt_outlined,
+        page: CaozuoListScreen(),
+        adminOnly: true,
+      ),
+      SidebarMenu(
+        title: "Shipping Data",
+        icon: Icons.local_shipping_outlined,
+        page: FahuoListScreen(),
+        adminOnly: true,
+      ),
+      // SidebarMenu(
+      //   title: "Customer Irradiated Goods",
+      //   icon: Icons.inventory_2_outlined,
+      //   page: KehufuListScreen(),
+      //   adminOnly: true,
+      // ),
+      SidebarMenu(
+        title: "Customer Contact Person",
+        icon: Icons.contact_page_outlined,
+        page: KehuliListScreen(),
+        adminOnly: true,
+      ),
+      SidebarMenu(
+        title: "Customer Information",
+        icon: Icons.account_circle_outlined,
+        page: KehuxinListScreen(),
+        adminOnly: true,
+      ),
+      // SidebarMenu(
+      //   title: "Organization Structure",
+      //   icon: Icons.account_tree_outlined,
+      //   page: ZuzhiListScreen(),
+      //   adminOnly: true,
+      // ),
+      SidebarMenu(
+        title: "Register User",
+        icon: Icons.person_add_alt_outlined,
+        page: RegisterScreen(),
+        adminOnly: true,
+      ),
+    ],
+  },
+];
+
+// ======================================================
+// ===================== WIDGET =========================
+// ======================================================
 class AppSidebar extends StatelessWidget {
   const AppSidebar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final auth = context.watch<AuthProvider>(); // ✅ INI WAJIB
+    final auth = context.watch<AuthProvider>();
+
     return Drawer(
       child: Column(
         children: [
@@ -35,249 +204,19 @@ class AppSidebar extends StatelessWidget {
           Expanded(
             child: ListView(
               padding: const EdgeInsets.symmetric(vertical: 8),
-              children: [
-                // _sectionTitle("Customer Data"),
-                // _menuItem(
-                //   context,
-                //   icon: Icons.people_alt_outlined,
-                //   title: "Profile Customer",
-                //   page: const KehuxinListScreen(),
-                // ),
-                // _menuItem(
-                //   context,
-                //   icon: Icons.people_alt_outlined,
-                //   title: "PIC Costumer (TB_KeHuLianXiRen)",
-                //   page: const JueseListScreen(),
-                // ),
-                _sectionTitle("Order Job"),
-                _menuItem(
-                  context,
-                  icon: Icons.people_alt_outlined,
-                  title: "Customer Order (TB_WeiTuoDan done)",
-                  page: const WeituodanListScreen(),
-                ),
-                _menuItem(
-                  context,
-                  icon: Icons.people_alt_outlined,
-                  title: "Type Service (TB_WeiTuoDanLeiXing(done))",
-                  page: const WeituodanleixingListScreen(),
-                ),
-                _menuItem(
-                  context,
-                  icon: Icons.people_alt_outlined,
-                  title: "Work Detail (TB_WeiTuoDanRenWuMingXi)",
-                  page: const WeituodanrenwuListScreen(),
-                ),
-                _sectionTitle("Management Production"),
-
-                _menuItem(
-                  context,
-                  icon: Icons.people_alt_outlined,
-                  title: "Process Management",
-                  page: const ProcessManageListScreen(),
-                ),
-
-                // _sectionTitle("Batch Processing"),
-                // _menuItem(
-                //   context,
-                //   icon: Icons.people_alt_outlined,
-                //   title: "Batch List (TB_PiCiRenWuLieBiao)",
-                //   page: const JueseListScreen(),
-                // ),
-                // _menuItem(
-                //   context,
-                //   icon: Icons.people_alt_outlined,
-                //   title: "Timeline Process (TB_PiCiShiJianJiLu)",
-                //   page: const JueseListScreen(),
-                // ),
-                // _menuItem(
-                //   context,
-                //   icon: Icons.people_alt_outlined,
-                //   title: "Change Status (TB_PiCiCaoZuoJiLu)",
-                //   page: const JueseListScreen(),
-                // ),
-                // _menuItem(
-                //   context,
-                //   icon: Icons.people_alt_outlined,
-                //   title: "Conclution Batch (TB_PiCiChuLiJieLun)",
-                //   page: const JueseListScreen(),
-                // ),
-
-                // _sectionTitle("Quality & Dose Result"),
-                // _menuItem(
-                //   context,
-                //   icon: Icons.people_alt_outlined,
-                //   title: "QC Summary (TB_PiCiZhiLiangJianCeDan)",
-                //   page: const JueseListScreen(),
-                // ),
-                // _menuItem(
-                //   context,
-                //   icon: Icons.people_alt_outlined,
-                //   title: "QC Detail (TB_PiCiZhiLiangJianCeDanMingXi)",
-                //   page: const JueseListScreen(),
-                // ),
-                // _menuItem(
-                //   context,
-                //   icon: Icons.people_alt_outlined,
-                //   title: "Dose Map (TB_JiLiangFenBuTu)",
-                //   page: const JueseListScreen(),
-                // ),
-                // _menuItem(
-                //   context,
-                //   icon: Icons.people_alt_outlined,
-                //   title: "Detail Dose (TB_JiLiangFenBuTuMingXi)",
-                //   page: const JueseListScreen(),
-                // ),
-                // _menuItem(
-                //   context,
-                //   icon: Icons.people_alt_outlined,
-                //   title: "Indicator (TB_PiCiZhiBiaoWuJianCe)",
-                //   page: const JueseListScreen(),
-                // ),
-                // _menuItem(
-                //   context,
-                //   icon: Icons.people_alt_outlined,
-                //   title: "Final Result (TB_PiCiChuLiJieLun)",
-                //   page: const JueseListScreen(),
-                // ),
-                // _menuItem(
-                //   context,
-                //   icon: Icons.people_alt_outlined,
-                //   title: "Pass / Fail (TB_FuZhaoJieLunLeiXing)",
-                //   page: const JueseListScreen(),
-                // ),
-
-                // _sectionTitle("Certificate Docs"),
-                // _menuItem(
-                //   context,
-                //   icon: Icons.people_alt_outlined,
-                //   title: "Certificate (TB_FuZhaoZhengMing)",
-                //   page: const JueseListScreen(),
-                // ),
-                // _menuItem(
-                //   context,
-                //   icon: Icons.people_alt_outlined,
-                //   title: "Docs List (TB_FuZhaoZhengMingLieBiao)",
-                //   page: const JueseListScreen(),
-                // ),
-                // _menuItem(
-                //   context,
-                //   icon: Icons.people_alt_outlined,
-                //   title: "Evidence (TB_ShouLingPingZheng)",
-                //   page: const JueseListScreen(),
-                // ),
-
-                // _sectionTitle("Order"),
-                // _menuItem(
-                //   context,
-                //   icon: Icons.people_alt_outlined,
-                //   title: "Shipping Order (TB_FaHuoDan)",
-                //   page: const JueseListScreen(),
-                // ),
-                // _menuItem(
-                //   context,
-                //   icon: Icons.people_alt_outlined,
-                //   title: "Sended Item (TB_FaHuoMingXiLieBiao)",
-                //   page: const JueseListScreen(),
-                // ),
-                _sectionTitle("MASTER DATA"),
-                _menuItem(
-                  context,
-                  icon: Icons.people_alt_outlined,
-                  title: "User Role",
-                  page: const JueseListScreen(),
-                ),
-                _menuItem(
-                  context,
-                  icon: Icons.warehouse_outlined,
-                  title: "Warehouse",
-                  page: const WarehouseListScreen(),
-                ),
-                _menuItem(
-                  context,
-                  icon: Icons.precision_manufacturing_outlined,
-                  title: "Line Production",
-                  page: const ChanpinXianListScreen(),
-                ),
-                _menuItem(
-                  context,
-                  icon: Icons.rule_folder_outlined,
-                  title: "Radiation Conclusion",
-                  page: const FuzhaoListScreen(),
-                ),
-                _menuItem(
-                  context,
-                  icon: Icons.layers_outlined,
-                  title: "Radiation Batch",
-                  page: const FuzhaopiListScreen(),
-                ),
-                _menuItem(
-                  context,
-                  icon: Icons.payments_outlined,
-                  title: "Payment Type",
-                  page: const JiesuanListScreen(),
-                ),
-                _menuItem(
-                  context,
-                  icon: Icons.straighten_outlined,
-                  title: "Measurement Units",
-                  page: const JiliangListScreen(),
-                ),
-                _menuItem(
-                  context,
-                  icon: Icons.monitor_heart_outlined,
-                  title: "Dosimeter Type",
-                  page: const JiliangjiListScreen(),
-                ),
-
-                const SizedBox(height: 8),
-                const Divider(),
-
-                _sectionTitle("TRANSACTION"),
-                _menuItem(
-                  context,
-                  icon: Icons.list_alt_outlined,
-                  title: "Operation Log",
-                  page: const CaozuoListScreen(),
-                ),
-                _menuItem(
-                  context,
-                  icon: Icons.local_shipping_outlined,
-                  title: "Shipping Data",
-                  page: const FahuoListScreen(),
-                ),
-                _menuItem(
-                  context,
-                  icon: Icons.inventory_2_outlined,
-                  title: "Customer Irradiated Goods",
-                  page: const KehufuListScreen(),
-                ),
-                _menuItem(
-                  context,
-                  icon: Icons.contact_page_outlined,
-                  title: "Customer Contact Person",
-                  page: const KehuliListScreen(),
-                ),
-                _menuItem(
-                  context,
-                  icon: Icons.contact_page_outlined,
-                  title: "Customer Information",
-                  page: const KehuxinListScreen(),
-                ),
-                _menuItem(
-                  context,
-                  icon: Icons.contact_page_outlined,
-                  title: "Organization Structure",
-                  page: const ZuzhiListScreen(),
-                ),
-                if (auth.isAdmin)
-                  _menuItem(
-                    context,
-                    icon: Icons.person_add_alt_outlined,
-                    title: "Register",
-                    page: const RegisterScreen(),
-                  ),
-              ],
+              children: sidebarSections
+                  .where(
+                    (section) => section["adminOnly"] != true || auth.isAdmin,
+                  )
+                  .expand(
+                    (section) => _buildSection(
+                      context,
+                      auth,
+                      title: section["title"],
+                      menus: section["menus"],
+                    ),
+                  )
+                  .toList(),
             ),
           ),
         ],
@@ -314,7 +253,6 @@ class AppSidebar extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-
               const Text(
                 "ERP Management System",
                 style: TextStyle(
@@ -323,10 +261,7 @@ class AppSidebar extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-
               const SizedBox(height: 6),
-
-              // 👤 WELCOME USER
               Text(
                 "Welcome, $username !",
                 style: const TextStyle(
@@ -342,10 +277,32 @@ class AppSidebar extends StatelessWidget {
     );
   }
 
+  // ================= SECTION =================
+  List<Widget> _buildSection(
+    BuildContext context,
+    AuthProvider auth, {
+    required String title,
+    required List<SidebarMenu> menus,
+  }) {
+    return [
+      _sectionTitle(title),
+      ...menus
+          .where((menu) => !menu.adminOnly || auth.isAdmin)
+          .map(
+            (menu) => _menuItem(
+              context,
+              icon: menu.icon,
+              title: menu.title,
+              page: menu.page,
+            ),
+          ),
+    ];
+  }
+
   // ================= SECTION TITLE =================
   Widget _sectionTitle(String title) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 6),
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 6),
       child: Text(
         title,
         style: TextStyle(

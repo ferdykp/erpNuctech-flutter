@@ -14,6 +14,11 @@ class CaozuoListScreen extends StatefulWidget {
 }
 
 class _CaozuoListScreenState extends State<CaozuoListScreen> {
+  static const double idColWidth = 60;
+  static const double oprColWidth = 180;
+  // static const double opsColWidth = 90;
+  static const double actionColWidth = 100;
+
   @override
   void initState() {
     super.initState();
@@ -23,7 +28,7 @@ class _CaozuoListScreenState extends State<CaozuoListScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<CaozuoProvider>(context);
-    return BaseLayout(title: "Testing", child: _buildBody(provider));
+    return BaseLayout(title: "Operation Logs", child: _buildBody(provider));
   }
 
   Widget _buildBody(CaozuoProvider provider) {
@@ -56,23 +61,57 @@ class _CaozuoListScreenState extends State<CaozuoListScreen> {
         return SingleChildScrollView(
           child: DataTableTheme(
             data: const DataTableThemeData(
-              dataRowMinHeight: 36, // <<< TAMBAHKAN
-              dataRowMaxHeight: 58, // <<< TAMBAHKAN
+              dataRowMinHeight: 36,
+              dataRowMaxHeight: 58,
             ),
             child: PaginatedDataTable(
               header: const Text("Radiation Batch Operation Logs"),
               rowsPerPage: isMobile ? 10 : 10,
               columnSpacing: isMobile ? 10 : 30,
               columns: const [
-                DataColumn(label: Text("ID")),
-                DataColumn(label: Text("Operator")),
-                DataColumn(label: Text("Operation Note")),
-                DataColumn(label: Text("Action")),
+                DataColumn(
+                  label: SizedBox(
+                    width: idColWidth,
+                    child: Center(child: Text("ID")),
+                  ),
+                ),
+                DataColumn(
+                  label: SizedBox(
+                    width: oprColWidth,
+                    child: Center(
+                      child: Text("Operator", textAlign: TextAlign.center),
+                    ),
+                  ),
+                ),
+                // DataColumn(
+                //   label: SizedBox(
+                //     width: opsColWidth,
+                //     child: Center(
+                //       child: Text(
+                //         "Operation Note",
+                //         maxLines: 2,
+                //         overflow: TextOverflow.ellipsis,
+                //         textAlign: TextAlign.center,
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                DataColumn(
+                  label: SizedBox(
+                    width: actionColWidth,
+                    child: Center(child: Text("Action")),
+                  ),
+                ),
               ],
+
               source: CaoZuoDataSource(
                 data: provider.data,
                 context: context,
                 isMobile: isMobile,
+                idColWidth: idColWidth,
+                oprColWidth: oprColWidth,
+                // opsColWidth: opsColWidth,
+                actionColWidth: actionColWidth,
               ),
             ),
           ),

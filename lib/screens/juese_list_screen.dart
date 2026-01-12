@@ -13,6 +13,10 @@ class JueseListScreen extends StatefulWidget {
 }
 
 class _JueseListScreenState extends State<JueseListScreen> {
+  static const double _idColWidth = 40;
+  static const double _nameColWidth = 190;
+  static const double _actionColWidth = 100;
+
   @override
   void initState() {
     super.initState();
@@ -59,48 +63,35 @@ class _JueseListScreenState extends State<JueseListScreen> {
         return SingleChildScrollView(
           child: DataTableTheme(
             data: const DataTableThemeData(
-              dataRowMinHeight: 36,
+              headingRowHeight: 48,
+              dataRowMinHeight: 44,
               dataRowMaxHeight: 58,
             ),
             child: PaginatedDataTable(
               header: const Text("Role"),
-              rowsPerPage: isMobile ? 10 : 10,
-              columnSpacing: isMobile ? 10 : 30,
+              rowsPerPage: 10,
+              columnSpacing: isMobile ? 12 : 32,
               columns: const [
-                DataColumn(label: Text("ID")),
                 DataColumn(
                   label: SizedBox(
-                    width: 80, // ⬅️ atur lebar header
-                    child: Text(
-                      "Role Name",
-                      textAlign: TextAlign.center,
-                      softWrap: true,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    width: _idColWidth,
+                    child: Center(child: Text("ID")),
                   ),
                 ),
                 DataColumn(
                   label: SizedBox(
-                    width: 120, // ⬅️ atur lebar header
-                    child: Text(
-                      "Role Desc",
-                      textAlign: TextAlign.center,
-                      softWrap: true,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    width: _nameColWidth, // ⬅️ atur lebar header
+                    child: Center(
+                      child: Text("Role Name", textAlign: TextAlign.center),
                     ),
                   ),
                 ),
 
                 // DataColumn(label: Text("Action")),
                 DataColumn(
-                  label: Center(
-                    child: Text(
-                      "Action",
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                    ),
+                  label: SizedBox(
+                    width: _actionColWidth,
+                    child: Center(child: Text("Action")),
                   ),
                 ),
               ],
@@ -108,6 +99,9 @@ class _JueseListScreenState extends State<JueseListScreen> {
                 data: provider.data,
                 context: context,
                 isMobile: isMobile,
+                idColWidth: _idColWidth,
+                nameColWidth: _nameColWidth,
+                actionColWidth: _actionColWidth,
               ),
             ),
           ),

@@ -14,6 +14,11 @@ class FahuoListScreen extends StatefulWidget {
 }
 
 class _FahuoListScreenState extends State<FahuoListScreen> {
+  static const double idColWidth = 20;
+  static const double oprColWidth = 110;
+  static const double noteColWidth = 100;
+  static const double actionColWidth = 110;
+
   @override
   void initState() {
     super.initState();
@@ -57,23 +62,56 @@ class _FahuoListScreenState extends State<FahuoListScreen> {
         return SingleChildScrollView(
           child: DataTableTheme(
             data: const DataTableThemeData(
-              dataRowMinHeight: 36, // <<< TAMBAHKAN
-              dataRowMaxHeight: 58, // <<< TAMBAHKAN
+              dataRowMinHeight: 36,
+              dataRowMaxHeight: 58,
             ),
             child: PaginatedDataTable(
-              header: const Text("Fahuo"),
+              header: const Text("Shipping Data"),
               rowsPerPage: isMobile ? 10 : 10,
               columnSpacing: isMobile ? 10 : 30,
               columns: const [
-                DataColumn(label: Text("ID")),
-                DataColumn(label: Text("Operator")),
-                DataColumn(label: Text("Operation Note")),
-                DataColumn(label: Text("Action")),
+                DataColumn(
+                  label: SizedBox(
+                    width: idColWidth,
+                    child: Center(child: Text("ID")),
+                  ),
+                ),
+                DataColumn(
+                  label: SizedBox(
+                    width: oprColWidth,
+                    child: Center(
+                      child: Text("Operator", textAlign: TextAlign.center),
+                    ),
+                  ),
+                ), // DataColumn(label: Text("Is Valid")),
+                DataColumn(
+                  label: SizedBox(
+                    width: noteColWidth,
+                    child: Center(
+                      child: Text(
+                        "Operation Note",
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: SizedBox(
+                    width: actionColWidth,
+                    child: Center(child: Text("Action")),
+                  ),
+                ),
               ],
               source: FahuoDataSource(
                 data: provider.data,
                 context: context,
                 isMobile: isMobile,
+                idColWidth: idColWidth,
+                oprColWidth: oprColWidth,
+                noteColWidth: noteColWidth,
+                actionColWidth: actionColWidth,
               ),
             ),
           ),

@@ -1,41 +1,37 @@
-// import 'package:erp_nuctech/models/fuzhaojielunleixing_model.dart';
-import 'package:erp_nuctech/screens/table/fuzhaojielunleixing_data_source.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'table/task_queue1_data_source.dart';
 import '../layouts/base_layout.dart';
-import '../providers/fuzhaojielunleixing_provider.dart';
+import '../providers/task_queue1_provider.dart';
 
-class FuzhaoListScreen extends StatefulWidget {
-  const FuzhaoListScreen({super.key});
+class TaskQueue1ListScreen extends StatefulWidget {
+  const TaskQueue1ListScreen({super.key});
 
   @override
-  State<FuzhaoListScreen> createState() => _FuzhaoListScreenState();
+  State<TaskQueue1ListScreen> createState() => _TaskQueue1ListScreenState();
 }
 
-class _FuzhaoListScreenState extends State<FuzhaoListScreen> {
-  static const double idColWidth = 20;
-  static const double catColWidth = 110;
-  static const double validColWidth = 90;
-  static const double actionColWidth = 90;
+class _TaskQueue1ListScreenState extends State<TaskQueue1ListScreen> {
+  static const double _noOrderColWidth = 100;
+  static const double _productColWidth = 130;
+  static const double _actionColWidth = 100;
 
   @override
   void initState() {
     super.initState();
-    Provider.of<FuzhaoProvider>(context, listen: false).fetchFuzhao();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<TaskQueue1Provider>().fetchTaskQueue1();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<FuzhaoProvider>(context);
+    final provider = Provider.of<TaskQueue1Provider>(context);
 
-    return BaseLayout(
-      title: "Radiation Conlusion",
-      child: _buildBody(provider),
-    );
+    return BaseLayout(title: "Task Queue Acc 1", child: _buildBody(provider));
   }
 
-  Widget _buildBody(FuzhaoProvider provider) {
+  Widget _buildBody(TaskQueue1Provider provider) {
     if (provider.loading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -58,7 +54,7 @@ class _FuzhaoListScreenState extends State<FuzhaoListScreen> {
     return _buildTable(provider);
   }
 
-  Widget _buildTable(FuzhaoProvider provider) {
+  Widget _buildTable(TaskQueue1Provider provider) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isMobile = constraints.maxWidth < 600;
@@ -66,51 +62,45 @@ class _FuzhaoListScreenState extends State<FuzhaoListScreen> {
         return SingleChildScrollView(
           child: DataTableTheme(
             data: const DataTableThemeData(
+              headingRowHeight: 48,
               dataRowMinHeight: 36,
               dataRowMaxHeight: 58,
             ),
             child: PaginatedDataTable(
-              header: const Text("Radiation Batch Operation Logs"),
-              rowsPerPage: 10,
+              header: const Text("Task Queue Acc 1"),
+              rowsPerPage: isMobile ? 10 : 10,
               columnSpacing: isMobile ? 12 : 32,
               columns: const [
+                // DataColumn(label: Text("Order Number")),
                 DataColumn(
                   label: SizedBox(
-                    width: idColWidth,
-                    child: Center(child: Text("ID")),
+                    width: _noOrderColWidth,
+                    child: Center(child: Text("Order Number")),
                   ),
                 ),
                 DataColumn(
                   label: SizedBox(
-                    width: catColWidth,
+                    width: _productColWidth,
                     child: Center(
-                      child: Text("Category", textAlign: TextAlign.center),
-                    ),
-                  ),
-                ), // DataColumn(label: Text("Is Valid")),
-                DataColumn(
-                  label: SizedBox(
-                    width: validColWidth,
-                    child: Center(
-                      child: Text("Valid", textAlign: TextAlign.center),
+                      child: Text("Product", textAlign: TextAlign.center),
                     ),
                   ),
                 ),
+
                 DataColumn(
                   label: SizedBox(
-                    width: actionColWidth,
+                    width: _actionColWidth,
                     child: Center(child: Text("Action")),
                   ),
                 ),
               ],
-              source: FuzhaoDataSource(
+              source: TaskQueue1DataSource(
                 data: provider.data,
                 context: context,
                 isMobile: isMobile,
-                idColWidth: idColWidth,
-                catColWidth: catColWidth,
-                validColWidth: validColWidth,
-                actionColWidth: actionColWidth,
+                noOrderColWidth: _noOrderColWidth,
+                productColWidth: _productColWidth,
+                actionColWidth: _actionColWidth,
               ),
             ),
           ),

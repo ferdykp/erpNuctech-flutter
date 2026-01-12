@@ -5,11 +5,19 @@ class CaoZuoDataSource extends DataTableSource {
   final List<CaoZuo> data;
   final BuildContext context;
   final bool isMobile;
+  final double idColWidth;
+  final double oprColWidth;
+  // final double opsColWidth;
+  final double actionColWidth;
 
   CaoZuoDataSource({
     required this.data,
     required this.context,
     required this.isMobile,
+    required this.idColWidth,
+    required this.oprColWidth,
+    // required this.opsColWidth,
+    required this.actionColWidth,
   });
 
   @override
@@ -20,37 +28,46 @@ class CaoZuoDataSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
-        DataCell(Text(w.czrzid.toString())),
-        // DataCell(Text(w.picizhuangtai == 1 ? "Active" : "No")),
+        // DataCell(Text(w.czrzid.toString())),
         DataCell(
           SizedBox(
-            width: isMobile ? 80 : 300,
-            child: Text(
-              w.caozuoren,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis, // <<< PENTING
-              textAlign: TextAlign.center,
+            width: idColWidth,
+            child: Center(
+              child: Text(w.czrzid.toString(), textAlign: TextAlign.center),
+            ),
+          ),
+        ),
+        DataCell(
+          SizedBox(
+            width: oprColWidth,
+            child: Center(
+              child: Text(w.caozuoren, textAlign: TextAlign.center),
             ),
           ),
         ),
 
+        // DataCell(
+        //   SizedBox(
+        //     width: opsColWidth,
+        //     child: Center(
+        //       child: Text(w.caozuoneirong, textAlign: TextAlign.center),
+        //     ),
+        //   ),
+        // ),
         DataCell(
           SizedBox(
-            width: isMobile ? 110 : 300,
-            child: Text(
-              w.caozuoneirong,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis, // <<< PENTING
-              textAlign: TextAlign.center,
+            width: actionColWidth,
+            child: Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (_) => _detailDialog(w),
+                  );
+                },
+                child: const Text("Detail"),
+              ),
             ),
-          ),
-        ),
-        DataCell(
-          ElevatedButton(
-            onPressed: () {
-              showDialog(context: context, builder: (_) => _detailDialog(w));
-            },
-            child: const Text("Detail"),
           ),
         ),
       ],

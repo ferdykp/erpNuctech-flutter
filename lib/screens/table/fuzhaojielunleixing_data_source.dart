@@ -5,11 +5,19 @@ class FuzhaoDataSource extends DataTableSource {
   final List<Fuzhao> data;
   final BuildContext context;
   final bool isMobile;
+  final double idColWidth;
+  final double catColWidth;
+  final double validColWidth;
+  final double actionColWidth;
 
   FuzhaoDataSource({
     required this.data,
     required this.context,
     required this.isMobile,
+    required this.idColWidth,
+    required this.catColWidth,
+    required this.validColWidth,
+    required this.actionColWidth,
   });
 
   @override
@@ -20,37 +28,46 @@ class FuzhaoDataSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
-        DataCell(Text(w.fjllxid.toString())),
-        // DataCell(Text(w.picizhuangtai == 1 ? "Active" : "No")),
         DataCell(
           SizedBox(
-            width: isMobile ? 80 : 300,
-            child: Text(
-              w.mingcheng,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis, // <<< PENTING
-              textAlign: TextAlign.center,
+            width: idColWidth,
+            child: Center(child: Text(w.fjllxid.toString())),
+          ),
+        ),
+        DataCell(
+          SizedBox(
+            width: catColWidth,
+            child: Center(
+              child: Text(w.mingcheng, textAlign: TextAlign.center),
             ),
           ),
         ),
 
         DataCell(
           SizedBox(
-            width: isMobile ? 110 : 300,
-            child: Text(
-              w.shifouyouxiao == 1 ? "Yes" : "No",
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis, // <<< PENTING
-              textAlign: TextAlign.center,
+            width: validColWidth,
+            child: Center(
+              child: Text(
+                w.shifouyouxiao == 1 ? "Yes" : "No",
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
         ),
         DataCell(
-          ElevatedButton(
-            onPressed: () {
-              showDialog(context: context, builder: (_) => _detailDialog(w));
-            },
-            child: const Text("Detail"),
+          SizedBox(
+            width: actionColWidth,
+            child: Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (_) => _detailDialog(w),
+                  );
+                },
+                child: const Text("Detail"),
+              ),
+            ),
           ),
         ),
       ],
